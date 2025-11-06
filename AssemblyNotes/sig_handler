@@ -1,0 +1,17 @@
+<+0>: allocate 8 bytes on stack
+<+4>: move <unknown text> to %edi                                           # text is "So you think you can stop the bomb with ctrl-c, do you?"
+<+9>: println
+<+14>
+<+19>: sleep(3)
+<+24>: move <unknown text> to %esi                                          # text is "Well..."
+<+29>
+<+34>
+<+39>: __printf_chk(%esi)
+<+44>: move stdout stream to %rdi
+<+51>: fflush(%rdi)                                                         # flush stdout
+<+56>
+<+61>: sleep(1)
+<+66>: move <unknown text> to %esi                                          # text is "OK. :-)"
+<+71>: println
+<+76>
+<+81>: exit(16)                                                             # exit program

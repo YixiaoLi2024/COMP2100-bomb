@@ -1,0 +1,268 @@
+<+0>
+<+2>
+<+4>
+<+6>
+<+8>
+<+9>: push on stack (%r15, %r14, %r13, %r12, %rbp, %rbx)
+<+10>: allocate 120 bytes on stack
+<+14>: move %rdi to %rbx                                                                # 1st parameter passed (pointer to record of user + time)
+<+17>: move 0x3138333430343834 to %rax
+<+27>: %rsp[96] = %rax                                                                  # stores "48404381"
+<+32>: %rsp[104] = 0
+<+37>: %rsp[80] = 1919251317
+<+45>: %rsp[84] = 0
+<+50>: %rsp[64] = 1701669236
+<+58>: %rsp[68] = 0
+<+63>: %eax = *%rdi                                                                     # %eax stores the current field pointed to by %rdi (user field)
+<+66>
+<+68>: jump to <+110> if %al == 0                                                       # jump if field is empty
+<+70>: move 0 to %edx                                                                   # exit loop boolean value
+<+75>
+<+77>: jump to <+94> if %al != 10                                                       # jump if byte isn't '\n'
+<+79>
+<+81>: jump to <+978> if %edx == 0                                                      # jump if first byte is '\n'
+<+87>
+<+92>: jump to <+99>
+<+94>: move 1 to %edx                                                                   # exit loop boolean value
+<+99>: %rbx = %rbx[1]                                                                   # get next byte of the record
+<+103>: %eax = *%rbx
+<+106>
+<+108>: jump to <+75> if %al != 0                                                       # repeat until end of record is reached
+<+110>
+<+115>: call malloc(1600)
+<+120>: move %rax to %r15                                                               # %r15 is a pointer to the allocated memory block
+<+123>
+<+126>: jump to <+950> if %rax == 0                                                     # jump and return 0 if memory allocation failed
+<+132>: %rsp[44] = 0
+<+140>: %rsp[40] = 0
+<+148>: %r14d = 200
+<+154>: %rsp[12] = 0
+<+162>: jump to <+776>                                                                  # jump and enter loop
+<+167>: %eax = %r14 - 4
+<+171>
+<+175>: jump to <+207> if %rsp[12] < %eax
+<+177>: %r14d = 2*%r14d
+<+180>
+<+183>: %rsi = 8*%r14d
+<+187>
+<+190>: call realloc(%r15, %rsi)                                                        # double %r15's allocated memory block
+<+195>: move %rax to %r15                                                               # %r15 is a pointer to the reallocated memory block
+<+198>
+<+201>: jump to <+957> if %rax == 0                                                     # jump and return 0 if memory reallocation failed
+<+207>
+<+211>: jump to <+243> if %bpl == 61
+<+213>
+<+216>: jump to <+243> if %r12b == 0                                                    # jump if %rbx is '=' or NULL
+<+218>
+<+221>: %r12 = %rbx[1]                                                                  # get next byte
+<+225>: %ebp = *%r12
+<+230>
+<+233>: jump to <+246> if %bpl == 0
+<+235>
+<+239>: jump to <+221> if %bpl != 61                                                    # repeat until byte of %rbx is '=' or NULL
+<+241>: jump to <+246>
+<+243>: %r12 = %rbx                                                                     # %r12 stores pointer in %rbx if %rbx is '=' or NULL
+<+246>
+<+250>: jump to <+741> if %bpl != 61                                                    # jump if byte of %r12 is NULL
+<+256>: *%r12 = 0                                                                       # change '=' to NULL
+<+261>: move 0 to %eax
+<+266>: move -1 to %rcx
+<+273>: move %rbx to %rdi
+<+276>: repeatedly scan through the record until a NULL byte is found                   # %rcx decreases each loop
+<+278>: %rax = %rsp[12]
+<+283>: %r13 = %rsp[12]
+<+286>: %rsp[32] = %rsp[12]
+<+291>: %rax = 8*%rsp[12]
+<+295>: %rsp[16] = 8*%rsp[12]
+<+300>
+<+302>: move number of scanned bytes to %eax                                            # includes NULL byte
+<+304>: %rbp = %eax
+<+307>
+<+310>: call malloc(%rbp)                                                               # allocate memory for %rbx
+<+315>: %r15[8*%rsp[12]] = %rax                                                         # memory address %r15 + 8*%rsp[12] stores pointer to first record
+<+319>
+<+322>: jump to <+964> if %rax == 0                                                     # jump and return 0 if memory allocation failed
+<+328>
+<+331>
+<+334>
+<+337>: call strncpy(%rax, %rbx, %rbp)                                                  # %rbx is moved into allocated memory
+<+342>
+<+345>: jump to <+359> if *%rbx == 0                                                    # jump if %rbx is empty
+<+347>: *%rbx = 0
+<+350>: %rbx = %rbx[1]
+<+354>
+<+357>: jump to <+347> if *%rbx != 0                                                    # repeat until all bytes of %rbx is set to NULL
+<+359>: %r13 = %r12[1]                                                                  # move memory address of %r12 + 1 to %r13 (byte after %rbx)
+<+364>: %ebp = %r12[1]
+<+370>
+<+373>: jump to <+404> if %bpl == 0
+<+375>
+<+379>: jump to <+404> if %bpl == 10                                                    # jump if byte after %rbx is NULL or '\n'
+<+381>: %rbx = %r13                                                                     # sets %rbx to byte after previously stored %rbx
+<+384>: %rbx = %rbx[1]                                                                  # get next byte
+<+388>: %ebp = *%rbx
+<+391>
+<+394>: jump to <+407> if %bpl == 0
+<+396>
+<+400>: jump to <+384> if %bpl == 10                                                    # repeat until '\n' or NULL is found
+<+402>: jump to <+407>
+<+404>: %rbx = %r13                                                                     # sets %rbx to byte after previously stored %rbx
+<+407>: *%rbx = 0                                                                       # sets last byte of new record to NULL
+<+410>: move 0 to %eax
+<+415>: move -1 to %rcx
+<+422>: move %r13 to %rdi
+<+425>: repeatedly scan through the record until a NULL byte is found                   # %rcx decreases each loop
+<+427>
+<+429>: move number of scanned bytes to %eax                                            # includes NULL byte
+<+431>: convert %eax to %rax
+<+433>: %rsp[24] = %rax                                                                 # store number of bytes in the new record in %rsp[24]
+<+438>
+<+441>: call malloc(%rax)                                                               # allocate memory for new record (%r13)
+<+446>
+<+451>: %r15[8*%rsp[12] + 8] = %rax                                                     # memory address %r15 + 8*%rsp[12] + 8 stores pointer to second record
+<+456>
+<+459>: jump to <+971> if %rax == 0                                                     # jump and return 0 if memory allocation failed
+<+465>
+<+470>
+<+473>
+<+476>: call strncpy(%rax, %r13, %rsp[24])                                              # %r13 is moved into allocated memory
+<+481>: %rsp[12] = %rsp[12] + 2                                                         # update stored memory (added 2 pointers)
+<+486>: move 0 to %eax
+<+491>: move -1 to %rcx
+<+498>: move %rsp[80] to %rdi                                                           # move memory address of %rsp + 80 to %rdi
+<+503>: repeatedly scan through the record until a NULL byte is found                   # %rcx decreases each loop
+<+505>: move number of scanned bytes to %rcx                                            # includes NULL byte
+<+508>
+<+511>
+<+516>
+<+520>: %rsp[16] = %r15[8*%rsp[32]]                                                     # %rax stores memory address of the 2 record pointers
+<+525>
+<+528>: move %rsp[80] to %rdi                                                           # move memory address of %rsp + 80 to %rdi
+<+533>: call strncmp(%rdi, %r15[8*%rsp[32]], %rcx)
+<+538>
+<+540>: jump to <+589> if %eax != 0                                                     # jump if string at %rsp + 80 isn't equal to the two records
+<+542>: move -1 to %rcx
+<+549>: move %rsp[96] to %rdi                                                           # move memory address of %rsp + 96 to %rdi
+<+554>: repeatedly scan through the record until a NULL byte is found                   # %rcx decreases each loop
+<+556>: move number of scanned bytes to %rcx                                            # includes NULL byte
+<+559>
+<+562>: move %rsp[96] to %rsi                                                           # move memory address of %rsp + 96 to %rsi
+<+567>
+<+570>: call strncmp(%r13, %rsi, %rcx)                                                  # compare %r13 (second record) to "48404381"
+<+575>
+<+578>
+<+580>
+<+582>: %eax = %eax == 0 + 1                                                            # %eax is 2 if string at %rsp + 96 is equal to the second record
+<+585>: %rsp[40] = %eax                                                                 # store result at memory address %rsp + 40
+<+589>: move 0 to %eax
+<+594>: move -1 to %rcx
+<+601>: move %rsp[64] to %rdi                                                           # move memory address of %rsp + 64 to %rdi
+<+606>: repeatedly scan through the record until a NULL byte is found                   # %rcx decreases each loop
+<+608>
+<+611>: move number of scanned bytes to %rdx                                            # includes NULL byte
+<+614>
+<+619>: move %rsp[64] to %rdi                                                           # move memory address of %rsp + 64 to %rdi
+<+624>: call strncmp(%rdi, %rsp[16], %rdx)
+<+629>
+<+631>: jump to <+703> if %eax != 0                                                     # jump if string at %rsp + 64 isn't equal to the first record (and the second record if needed)
+<+633>: move %rsp[56] to %rdx                                                           # move memory address of %rsp + 56 to %rdx
+<+638>: move <unknown text> to %esi
+<+643>
+<+646>: call __isoc99_sscanf(%r13, %esi, %rdx)                                          # moves the pointer to the second record into memory address %rsp + 56
+<+651>
+<+656>: call time(0)
+<+661>: %rdx = %rsp[56]
+<+666>: move %rdx[-5] to %rcx                                                           # move memory address of %rdx - 5 to %rcx (value of time field in record)
+<+670>: %rsp[44] = 1
+<+678>
+<+681>: jump to <+703> if %rax < %rcx                                                   # jump if current time is more recent than stored time in first record
+<+683>: %rdx = %rdx[5]                                                                  # set %rdx to memory address %rsp[56] (pointer to second record)
+<+687>
+<+690>: %al = %rax <= %rdx
+<+693>: %eax = %al                                                                      # zero extend %al to %eax
+<+696>: %eax = %eax + 1
+<+699>: %rsp[44] = %eax                                                                 # rsp[44] is 2 if current time is more recent or equal to stored time in second record
+<+703>
+<+709>: jump to <+727> if %r12[1] == 0                                                  # jump if 2nd record is NULL
+<+711>: *%r13 = 0
+<+716>: %r13 = %r13[1]                                                                  # get next byte
+<+720>
+<+725>: jump to <+711> if *%r13 != 0                                                    # repeat until all bytes of %r13 is set to NULL
+<+727>: *%rbx = %bpl                                                                    # %rbx is value of first byte of 2nd record
+<+730>
+<+734>: jump to <+763> if %bpl == 10
+<+736>
+<+739>: jump to <+763> if %bpl == 0                                                     # jump if value of first byte of 2nd record is '\n' or NULL
+<+741>: %rbx = %rbx[1]
+<+745>: %rbx[-1] = 0                                                                    # sets %rbx to 0 and get next byte
+<+749>: %ebp = *%rbp
+<+752>
+<+755>: jump to <+763> if %bpl == 0
+<+757>
+<+761>: jump to <+741> if %bpl != 10                                                    # repeat until %rbx is '\n' or NULL
+<+763>
+<+767>: jump to <+776> if %bpl != 10                                                    # jump if %rbx is NULL
+<+769>: *%rbx = 0
+<+772>: %rbx = %rbx[1]                                                                  # sets %rbx to NULL and get next byte (loop through next record)
+<+776>: %ebp = *%rbx
+<+779>
+<+782>: %r12b = %bpl != 0
+<+786>
+<+790>: jump to <+801> if %bpl != 10                                                    # jump if byte at %rbx is '\n' (record starts with '\n' for the 2nd time)
+<+792>
+<+795>: jump to <+167> if %r12b != 0                                                    # jump if %rbx isn't NULL
+<+801>: %rax = %rsp[12]
+<+806>: %r15[8*%rax] = 0
+<+814>: %r15[8*%rax + 8] = 0                                                            # sets first instance of first and second record pointers to NULL
+<+823>
+<+828>: jump to <+867> if %rsp[40] != 2                                                 # jump and exit if string at %rsp + 96 is equal to the second record
+<+830>
+<+835>: jump to <+867> if %rsp[44] != 2                                                 # jump and exit if current time is more recent than stored time in first record and more recent or equal to stored time in second record
+<+837>: set return to %r15                                                              # %r15 stores multiple instances of first and second record pointers
+<+840>: jump to <+990>                                                                  # return pointer to allocated memory
+<+845>: %esi = %rdx - 32
+<+848>
+<+852>: jump to <+859> if %sil <= 94                                                    # jump if byte is a printable character
+<+854>
+<+857>: jump to <+877> if %dl != 10                                                     # jump if %dl isn't a line break ('\n')
+<+859>: *%rax = %dl                                                                     # add printable ASCII characters to rax
+<+861>: rax = rax[1]                                                                    # get next byte
+<+865>: jump to <+877>
+<+867>: move 0 to %ecx                                                                  # loop count
+<+872>: move <unknown text> to %eax                                                     # pointer at the start of the printable ASCII string
+<+877>: add 1 to %ecx                                                                   # increment loop
+<+880>: move %ecx to %rdx
+<+883>: move %rdx[0x403de0] to %edx                                                     # get value of next byte
+<+890>
+<+893>: jump to <+845> if %dl != 127                                                    # repeat until DEL is found
+<+895>: *%rax = 0                                                                       # sets last byte to NULL
+<+898>: move <unknown text> to %edi                                                     # pointer at the start of the printable ASCII string
+<+903>: call strdup(%edi)                                                               # returns a pointer to the string
+<+908>
+<+911>: move <unknown text> to %edx                                                     # pointer at the start of the printable ASCII string
+<+916>: move %rax to %rdx if %rax != 0                                                  # %rcx is a pointer to the ASCII string
+<+920>: move <unknown text> to %esi                                                     # text is "%s\n"
+<+925>
+<+930>: move 0 to %eax
+<+935>: call __printf_chk(1, %esi, %rdx)                                               # print ASCII string
+<+940>
+<+945>: exit(8)
+<+950>: set return to 0
+<+955>: jump to <+990>
+<+957>: set return to 0
+<+962>: jump to <+990>
+<+964>: set return to 0
+<+969>: jump to <+990>
+<+971>: set return to 0
+<+976>: jump to <+990>
+<+978>: *%rbx = 0                                                                       # make first byte NULL
+<+981>: %rbx = %rbx[1]
+<+985>: jump to <+110>
+<+990>: unallocate space from stack (120 bytes)
+<+994>
+<+995>
+<+996>
+<+998>
+<+1000>
+<+1002>: pop from stack (%rbx, %rbp, %r12, %r13, %r14, %r15)
+<+1004>: return

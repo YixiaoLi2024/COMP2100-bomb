@@ -1,0 +1,222 @@
+<+0>
+<+2>
+<+4>
+<+6>
+<+8>
+<+9>: push on stack (%r15, %r14, %r13, %r12, %rbp, %rbx)
+<+10>: allocate 104 bytes on stack
+<+14>: %rsp[16] = %rdi                                                                  # 1st passed parameter
+<+19>: %rsp[24] = %rsi                                                                  # 2nd passed parameter
+<+24>: %r15 = %rdx                                                                      # 3rd passed parameter
+<+27>
+<+32>: time(0)
+<+37>: move %rax to %rbx
+<+40>: call getpid()                                                                    # returns the process ID of the calling process
+<+45>: %eax = %ebx xor %eax                                                             # prepare seed for srand
+<+47>
+<+49>: call srand(%eax)
+<+54>: move 1000 to %ebx
+<+59>: call rand()
+<+64>: subtract 1 from %ebx
+<+67>: jump to <+59> if %ebx != 1
+<+69>: call rand()                                                                      # call rand() 1000 times
+<+74>: arithmetic shift %eax right 24 bits                                              # keeps sign of %eax
+<+77>: %eax = %eax & 31                                                                 # only keep the lower 5 bits of %eax
+<+80>: %rsp[12] = %eax                                                                  # randomised number is saved to %rsp[12]
+<+84>
+<+92>: jump to <+798> if notifier_207 is null                                           # jump and return -1 if notifier_207 is null
+<+98>: move 0 to %r13d                                                                  # loop count
+<+104>: add 1 to %r13d                                                                  # increment loop (%r13d is total number of entries available)
+<+108>: %rax = %r13d                                                                    # get next 8 bytes
+<+111>
+<+120>: jump to <+104> if 8*%rax+0x605d80 != 0                                          # jump if value isn't 0
+<+122>: move 0 to %r12d                                                                 # loop count
+<+128>: move %rsp[48] to %r14                                                           # move memory address of %rsp + 48 to %r14
+<+133>
+<+137>: move %rsp[12] + %r12d to %eax                                                   # add 1 to random value
+<+140>: create %edx:%eax                                                                # convert %eax to signed 64 bit
+<+141>: divide %edx:%eax by %r13d                                                       # quotient is store in %eax and remainder is stored in %edx
+<+144>: move %edx to %rdx                                                               # %edx increases each time %r12d increases
+<+147>: move 8*%rdx+0x605d80 to %rsi                                                    # find port value used in geraddrinfo
+<+155>: rsp[40] = 0
+<+164>: move 6 to %ecx
+<+169>: move 0 to %eax
+<+174>: move %r14 to %rdi
+<+177>: repeatedly stores %rax into memory of %rdi until %ecx is 0                      # %ecx decreases each loop
+<+180>: rsp[52] = 2
+<+188>: rsp[60] = 6
+<+196>: rsp[56] = 1
+<+204>: move %rsp[40] to %rcx                                                           # %rsp[40]'s memory address is passed to %rcx
+<+209>
+<+212>: move <unknown text> to %edi                                                     # text is "comp2100.science.mq.edu.au"
+<+217>: call getaddrinfo(%edi, %rsi, %r14, %rcx)                                        # returns one or more internet addresses
+<+222>
+<+224>: jump to <+318> if %eax == 0                                                     # jump if getaddrinfo was successful
+<+226>: jump to <+248>                                                                  # jump and add the printable ASCII string to %r15
+<+228>: %ecx = %rax - 32
+<+231>
+<+234>: jump to <+240> if %cl <= 94                                                     # jump if byte is a printable character
+<+236>
+<+238>: jump to <+258> if %al != 10                                                     # jump if %al isn't a line break ('\n')
+<+240>: *%rsi = %al                                                                     # add printable ASCII characters to rsi
+<+242>: rsi = rsi[1]                                                                    # get next byte
+<+246>: jump to <+258>
+<+248>: move 0 to %edx                                                                  # loop count
+<+253>: move <unknown text> to %edi                                                     # pointer at the start of the printable ASCII string
+<+258>: add 1 to %edx                                                                   # increment loop
+<+261>: move %edx to %rax
+<+264>: move %rax[0x403c70] to %eax                                                     # get value of next byte
+<+271>
+<+273>: jump to <+228> if %al != 127                                                    # repeat until DEL is found
+<+275>: *%rsi = 0                                                                       # sets last byte to NULL
+<+278>: move <unknown text> to %edi                                                     # pointer at the start of the printable ASCII string
+<+283>: call strdup(%edi)                                                               # returns a pointer to the string
+<+288>
+<+291>: move <unknown text> to %esi                                                     # pointer at the start of the printable ASCII string
+<+296>: move %rax to %rsi if %rax != 0                                                  # %rsi is a pointer to the ASCII string
+<+300>
+<+305>
+<+308>: call strncpy(%r15, %rsi, 8192)                                                  # %rbp is a copy of printable ASCII string
+<+313>: jump to <+769>                                                                  # jump and loop again
+<+318>: move %rsp[40] to %rbx
+<+323>
+<+326>: jump to <+616> if %rbx == 0                                                     # jump and loop again if getaddrinfo's' record is empty
+<+332>
+<+336>: jump to <+596> if rbx[4] != 2                                                   # jump and get next record if getaddrinfo's record's ai_family isn't 2
+<+342>: move %rbx[24] to %rax
+<+346>: move %rax[4] to %eax                                                            # move 1 byte at %rax[4] to %eax
+<+350>
+<+353>: jump to <+365> if %eax != 127                                                   # jump if the first byte of getaddrinfo's record's IPv4 address isn't 127
+<+355>
+<+360>: exit(213)                                                                       # exit if the IPv4 address is in the format of 127.xxx.xxx.xxx
+<+365>
+<+368>: jump to <+596> if %eax != 10                                                    # jump and get next record if the first byte of getaddrinfo's record's IPv4 address isn't 10
+<+374>: move %rbx[12] to %edx
+<+377>: move %rbx[8] to %esi
+<+380>
+<+385>: call socket(2, %esi, %edx)                                                      # creates a endpoint for communication and returns a file descriptor that refers to the endpoint
+<+390>: move %eax to %ebp                                                               # move file descriptor for socket endpoint to %ebp
+<+392>
+<+395>: jump to <+486> if %eax != -1                                                    # jump if socket() was successful
+<+397>: jump to <+419>                                                                  # jump and add the printable ASCII string to %r15 and get next record
+<+399>: %ecx = %rax - 32
+<+402>
+<+405>: jump to <+411> if %cl <= 94                                                     # jump if byte is a printable character
+<+407>
+<+409>: jump to <+429> if %al != 10                                                     # jump if %al isn't a line break ('\n')
+<+411>: *%rsi = %al                                                                     # add printable ASCII characters to rsi
+<+413>: rsi = rsi[1]                                                                    # get next byte
+<+417>: jump to <+429>
+<+419>: move 0 to %edx                                                                  # loop count
+<+424>: move <unknown text> to %edi                                                     # pointer at the start of the printable ASCII string
+<+429>: add 1 to %edx                                                                   # increment loop
+<+432>: move %edx to %rax
+<+435>: move %rax[0x403f18] to %eax                                                     # get value of next byte
+<+442>
+<+444>: jump to <+399> if %al != 127                                                    # repeat until DEL is found
+<+446>: *%rsi = 0                                                                       # sets last byte to NULL
+<+449>: move <unknown text> to %edi                                                     # pointer at the start of the printable ASCII string
+<+454>: call strdup(%edi)                                                               # returns a pointer to the string
+<+459>
+<+462>: move <unknown text> to %esi                                                     # pointer at the start of the printable ASCII string
+<+467>: move %rax to %rsi if %rax != 0                                                  # %rsi is a pointer to the ASCII string
+<+471>
+<+476>
+<+479>: call strncpy(%r15, %rsi, 8192)                                                  # %rbp is a copy of printable ASCII string
+<+484>: jump to <+596>                                                                  # jump and get next record if the first byte of getaddrinfo's record's IPv4 address isn't 10
+<+486>: move %rbx[16] to %edx
+<+489>: move %rbx[24] to %rsi
+<+493>
+<+495>: call connect(%eax, %rsi, %edx)                                                  # initiate a connection on the socket and return 0 if the connection is successful
+<+500>
+<+502>: jump to <+611> if %eax >= 0                                                     # jump if connection is successful
+<+504>: move 0 to %edx                                                                  # loop count
+<+509>: move <unknown text> to %esi                                                     # pointer at the start of the printable ASCII string
+<+514>: jump to <+534>                                                                  # jump and add the printable ASCII string to %r15 and close the socket endpoint and get next record
+<+516>: %ecx = %rax - 32
+<+519>
+<+522>: jump to <+528> if %cl <= 94                                                     # jump if byte is a printable character
+<+524>
+<+526>: jump to <+534> if %al != 10                                                     # jump if %al isn't a line break ('\n')
+<+528>: *%rsi = %al                                                                     # add printable ASCII characters to rsi
+<+530>: rsi = rsi[1]                                                                    # get next byte
+<+534>: add 1 to %edx
+<+537>: move %edx to %rax
+<+540>: move %rax[0x403c70] to %eax                                                     # get value of next byte
+<+547>
+<+549>: jump to <+516> if %al != 127                                                    # repeat until DEL is found
+<+551>: *%rsi = 0                                                                       # sets last byte to NULL
+<+554>: move <unknown text> to %edi                                                     # pointer at the start of the printable ASCII string
+<+559>: call strdup(%edi)                                                               # returns a pointer to the string
+<+564>
+<+567>: move <unknown text> to %esi                                                     # pointer at the start of the printable ASCII string
+<+572>: move %rax to %rsi if %rax != 0                                                  # %rsi is a pointer to the ASCII string
+<+576>
+<+581>
+<+584>: call strncpy(%r15, %rsi, 8192)                                                  # %rbp is a copy of printable ASCII string
+<+589>
+<+591>: close(%ebp)
+<+596>: %rbx = %rbx[40]                                                                 # get next record
+<+600>
+<+603>: jump to <+332> if %rbx != 0                                                     # jump if record exists and check ai_family is 2
+<+609>: jump to <+616>                                                                  # jump and loop again if record doesn't exist
+<+611>
+<+614>: jump to <+703> if %rbx != 0                                                     # jump if getaddrinfo's record exists
+<+616>: move 0 to %edx                                                                  # loop count
+<+621>: move <unknown text> to %esi                                                     # pointer at the start of the printable ASCII string
+<+626>: jump to <+646>                                                                  # jump and add the printable ASCII string to %r15
+<+628>: %ecx = %rax - 32
+<+631>
+<+634>: jump to <+640> if %cl <= 94                                                     # jump if byte is a printable character
+<+636>
+<+638>: jump to <+646> if %al != 10                                                     # jump if %al isn't a line break ('\n')
+<+640>: *%rsi = %al                                                                     # add printable ASCII characters to rsi
+<+642>: rsi = rsi[1]                                                                    # get next byte
+<+646>: add 1 to %edx
+<+649>: move %edx to %rax
+<+652>: move %rax[0x404030] to %eax                                                     # get value of next byte
+<+659>
+<+661>: jump to <+628> if %al != 127                                                    # repeat until DEL is found
+<+663>: *%rsi = 0                                                                       # sets last byte to NULL
+<+666>: move <unknown text> to %edi                                                     # pointer at the start of the printable ASCII string
+<+671>: call strdup(%edi)                                                               # returns a pointer to the string
+<+676>
+<+679>: move <unknown text> to %esi                                                     # pointer at the start of the printable ASCII string
+<+684>: move %rax to %rsi if %rax != 0                                                  # %rsi is a pointer to the ASCII string
+<+688>
+<+693>
+<+696>: call strncpy(%r15, %rsi, 8192)                                                  # %rbp is a copy of printable ASCII string
+<+701>: jump to <+769>                                                                  # jump and loop again
+<+703>
+<+708>: move <unknown text> to %esi                                                     # text is ""
+<+713>
+<+716>: call strncpy(%r15, %esi, 8192)                                                  # %rbp is a copy of printable ASCII string
+<+721>
+<+723>: jump to <+769> if %ebp < 0                                                      # jump and loop again if socket endpoint was unsuccessful
+<+725>: move <unknown text> to %esi                                                     # text is "rb"
+<+730>
+<+732>: call fdopen(%ebp, %esi)                                                         # returns a pointer to socket connection file for reading
+<+737>: move %rsp[16] to %rdi
+<+742>: *%rdi = %rax                                                                    # store file pointer from fdopen in %rsp[16]
+<+745>: move <unknown text> to %esi                                                     # text is "wb"
+<+750>
+<+752>: call fdopen(%ebp, %esi)                                                         # returns a pointer to socket connection file for writing
+<+757>: move %rsp[24] to %rdi
+<+762>: *%rdi = %rax                                                                    # store file pointer from fdopen in %rsp[24]
+<+765>: set return to %ebp                                                              # set return to the file that was opened
+<+767>: jump to <+803>                                                                  # return %ebp which is >= 0
+<+769>: add 1 to %r12d                                                                  # increment loop
+<+773>: move %r12d to %rax
+<+776>
+<+785>: jump to <+133> if 8*%rax+0x605d80 != 0                                          # repeatedly loop until getaddrinfo is successful or end of loop is reached
+<+791>: set return to -1                                                                # return -1 if end of loop is reached
+<+796>: jump to <+803>
+<+798>: set return to -1
+<+803>: unallocate space from stack (104 bytes)
+<+807>
+<+808>
+<+809>
+<+811>
+<+813>
+<+815>: pop from stack (%rbx, %rbp, %r12, %r13, %r14, %r15)
+<+817>: return %eax

@@ -1,0 +1,97 @@
+<+0>
+<+1>: push on stack (%rbp, %rbx)
+<+2>: allocate 8 bytes on stack
+<+6>: move init_done into %ebx
+<+12>
+<+14>: jump to <+338> if %ebx != 0                                              # jump and return 0 if init_done isn't NULL (%ebx is 0 otherwise)
+<+20>: move %rdi into %rbp                                                      # 1st parameter passed
+<+23>
+<+28>
+<+33>: call signal(13, 1)                                                       # ignores SIGPIPE (when write fails)
+<+38>
+<+43>
+<+48>: call signal(29, 1)                                                       # ignores SIGIO (notifies when a socket or any file descriptor has finished a data transfer)
+<+53>
+<+58>
+<+63>: call signal(29, 1)                                                       # ignores SIGIO (notifies when a socket or any file descriptor has finished a data transfer)
+<+68>: call getuid()                                                            # get real user ID of the calling process
+<+73>
+<+75>: call getpwuid(%eax)                                                      # search the user database for an entry with the id from getuid() and returns a pointer to a record (struct)
+<+80>
+<+83>: jump to <+177> if %rax != 0                                              # jump if the pointer to the record isn't null
+<+85>: jump to <+107>
+<+87>: %ecx = %rax - 32
+<+90>
+<+93>: jump to <+99> if %cl <= 94                                               # jump if byte is a printable character
+<+95>
+<+97>: jump to <+117> if %al != 10                                              # jump if %al isn't a line break ('\n')
+<+99>: *%rsi = %al                                                              # add printable ASCII characters to rsi
+<+101>: rsi = rsi[1]                                                            # get next byte
+<+105>: jump to <+117>
+<+107>: move 0 to %edx                                                          # loop count
+<+112>: move <unknown text> to %esi                                             # pointer at the start of the printable ASCII string
+<+117>: add 1 to %edx                                                           # increment loop
+<+120>: move %edx to %rax
+<+123>: move %rax[0x403c70] to %eax                                             # get value of next byte
+<+130>
+<+132>: jump to <+87> if %al != 127                                             # repeat until DEL is found
+<+134>: *%rsi = 0                                                               # sets last byte to NULL
+<+137>: move <unknown text> to %edi                                             # pointer at the start of the printable ASCII string
+<+142>: call strdup(%edi)                                                       # returns a pointer to the string
+<+147>
+<+150>: move <unknown text> to %esi                                             # pointer at the start of the printable ASCII string
+<+155>: move %rax to %rsi if %rax != 0                                          # %rsi is a pointer to the ASCII string
+<+159>
+<+164>
+<+167>: call strncpy(%rbp, %rsi, 8192)                                          # %rbp is a copy of printable ASCII string
+<+172>: jump to <+345>                                                          # return -1;
+<+177>: %rsi = *%rax                                                            # %rsi is the struct from getpwuid
+<+180>: move 0 to %eax
+<+185>: move -1 to %rcx
+<+192>: move %rsi to %rdi
+<+195>: repeatedly scan through the record until a NULL byte is found           # %rcx decreases each loop
+<+197>
+<+200>
+<+203>: move number of scanned bytes into %rax                                  # doesn't include NULL byte
+<+207>
+<+213>: jump to <+304> if %rax <= 8191                                          # jump and return 0 if the number of scanned bytes is 8191 or less
+<+215>: jump to <+237>
+<+217>: %ecx = %rax - 32
+<+220>
+<+223>: jump to <+229> if %cl <= 94                                             # jump if byte is a printable character
+<+225>
+<+227>: jump to <+247> if %al != 10                                             # jump if %al isn't a line break ('\n')
+<+229>: *%rsi = %al                                                             # add printable ASCII characters to rsi
+<+231>: rsi = rsi[1]                                                            # get next byte
+<+235>: jump to <+247>
+<+237>: move 0 to %edx                                                          # loop count
+<+242>: move <unknown text> to %esi                                             # pointer at the start of the printable ASCII string
+<+247>: add 1 to %edx                                                           # increment loop
+<+250>: move %edx to %rax
+<+253>: move %rax[0x403d30] to %eax                                             # get value of next byte
+<+260>
+<+262>: jump to <+217> if %al != 127                                            # repeat until DEL is found
+<+264>: *%rsi = 0                                                               # sets last byte to NULL
+<+267>: move <unknown text> to %edi                                             # pointer at the start of the printable ASCII string
+<+272>: call strdup(%edi)                                                       # returns a pointer to the string
+<+277>
+<+280>: move <unknown text> to %esi                                             # pointer at the start of the printable ASCII string
+<+285>: move %rax to %rsi if %rax != 0                                          # %rsi is a pointer to the ASCII string
+<+289>
+<+294>
+<+297>: call strncpy(%rbp, %rsi, 8192)                                          # %rbp is a copy of printable ASCII string
+<+302>: jump to <+345>                                                          # return -1;
+<+304>
+<+309>
+<+314>: call strncpy(0x608a00, %rsi, 8192)                                      # 0x608a00 is the value of the first field of the struct (username) returned by getpwuid()
+<+319>: 0x60a9ff = 0                                                            # 0x60a9ff is <notifier_786+8191>
+<+326>: 0x6089e0 = 1                                                            # 0x6089e0 is init_done
+<+336>: jump to <+350>
+<+338>: move 0 into %ebx
+<+343>: jump to <+350>
+<+345>: move -1 into %ebx
+<+350>
+<+352>: unallocate space from stack (8 bytes)
+<+356>
+<+357>: pop from stack (%rbx, %rbp)
+<+358>: return %ebx

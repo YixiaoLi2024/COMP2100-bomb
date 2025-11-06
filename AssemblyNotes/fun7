@@ -1,0 +1,20 @@
+<+0>: allocate 8 bytes on stack
+<+4>
+<+7>: jump to <+52> if %rdi == 0
+<+9>: %edx = *rdi
+<+11>
+<+13>: jump to <+28> if %edx <= %esi
+<+15>: %rdi = %rdi[8]
+<+19>: call fun7(%rdi, %esi)                                                            # call fun7 with next field if this field's record is greater than %esi
+<+24>: %eax = 2*%eax
+<+26>: jump to <+57>
+<+28>: set return to 0
+<+33>
+<+35>: jump to <+57> if %edx == %esi                                                    # return 0 if this field's value is equal to %esi
+<+37>: %rdi = %rdi[16]
+<+41>: call fun7(%rdi, %esi)                                                            # call fun7 with next field if this field's record is less than %esi
+<+46>: %eax = 2*%rax + 1
+<+50>: jump to <+57>
+<+52>: set return to -1                                                                 # return -1 if end of record is reached
+<+57>: unallocate space from stack (8 bytes)
+<+61>: return

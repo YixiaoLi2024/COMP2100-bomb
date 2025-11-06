@@ -1,0 +1,113 @@
+<+0>
+<+2>
+<+3>: push on stack (%r12, %rbp, %rbx)
+<+4>: allocate 16384 bytes on stack
+<+11>: move %esi to %ebp                                                                # 2nd parameter passed
+<+13>: move %edx to %r12d                                                               # 3rd parameter passed (type of input)
+<+16>: move <unknown text> to %ebx                                                      # text is "input"
+<+21>
+<+23>: jump to <+42> if %edi < 0                                                        # jump if function is called from read_line
+<+25>
+<+28>: move <unknown text> to %eax                                                      # text is "defusion"
+<+33>: move <unknown text> to %ebx                                                      # text is "explosion"
+<+38>: move %rax to %rbx if %edi == 1                                                   # move %rax to %rbx if function is called from phase_defused
+<+42>: move num_input_strings to %esi
+<+48>: %edx = %rsi - 1
+<+51>
+<+54>
+<+58>: %rdx = %rdx * 102 + 0x6061cb                                                     # get last input string
+<+65>: move 0 to %eax
+<+70>: move -1 to %rcx
+<+77>: move %rdx to %rdi
+<+80>: repeatedly scan through the input string until a NULL byte is found              # %rcx decreases each loop
+<+82>
+<+85>: move 99 + number of scanned bytes into %rcx                                      # includes NULL byte
+<+89>
+<+96>: jump to <+123> if %rcx <= 8192                                                   # jump if input string is less than 8092 bytes (doesn't include NULL bytes)
+<+98>: move <unknown text> to %esi                                                      # text is "ERROR: Input string is too large."
+<+103>
+<+108>: call __printf_chk(1, %esi)
+<+113>
+<+118>: exit(8)
+<+123>: allocate 8 bytes on stack
+<+127>
+<+128>
+<+129>: push on stack (%rdx, %rsi, %rbp)                                                # %rdx is input string, %rsi is string number, %rbx is bomb status
+<+130>
+<+133>
+<+139>: move <unknown text> to %ecx                                                     # text is "%d:%s:%d:%d:%s"
+<+144>
+<+149>
+<+154>: move %rsp[8224] to %rdi                                                         # move memory address of %rsp + 8224 to %rdi
+<+162>
+<+167>: call __sprintf_chk(%rdi, 1, 8192, %ecx, 3992, %rbx, %rbp, %rsi, %rdx)           # writes to memory address of %rsp + 8224 (%rsp + 8192 without pushing)
+<+172>: unallocate space from stack (32 bytes)
+<+176>: call getuid()                                                                   # get real user ID of the calling process
+<+181>
+<+183>: call getpwuid(%eax)                                                             # search the user database for an entry with the id from getuid() and returns a pointer to a record (struct)
+<+188>
+<+191>: jump to <+292> if %rax == 0                                                     # jump if record is empty
+<+193>: %r10 = *%rax                                                                    # value of first field of record (username)
+<+196>: move 0 to %eax
+<+201>: move -1 to %rcx
+<+208>: move %r10 to %rdi
+<+211>: repeatedly scan through the input string until a NULL byte is found             # %rcx decreases each loop
+<+213>
+<+216>
+<+219>: move number of scanned bytes into %rax                                          # doesn't includes NULL byte
+<+223>
+<+227>: jump to <+292> if %rax > 80                                                     # jump if length of record is more than 80 bytes
+<+229>: move num_input_strings to %esi
+<+235>: %eax = %rsi - 1
+<+238>: convert %eax to %rax
+<+240>: %rax = %rax * 102
+<+244>
+<+245>
+<+247>: push on stack (%rsp, %r12, 0)                                                   # %r12 is type of input (stdin or passed file), %r10 is username, %rsi is string number, %rbx is bomb status
+<+249>: move %rsp[8216] to %rdx                                                         # move memory address of %rsp + 8216 to %rdx (%rsp + 8192 without pushing)
+<+257>: push on stack (%rdx)
+<+258>: move %rax[0x6061cb] to %r9                                                      # move pointer to input string to %r9
+<+265>
+<+268>
+<+271>
+<+276>
+<+279>: call deer(%r10, %rsi, 3992, %rbx, %ebp, %r9, %rsp[8224], 0, %r12, %rsp[32])     # update and send server information to server
+<+284>: move %eax to %ebx
+<+286>: unallocate space from stack (32 bytes)
+<+290>: jump to <+355>
+<+292>: move num_input_strings to %esi
+<+298>: %eax = %rsi - 1
+<+301>: convert %eax to %rax
+<+303>: %rax = %rax * 102
+<+307>
+<+308>
+<+310>: push on stack (%rsp, %r12, 0)
+<+312>: move %rsp[8216] to %rdx                                                         # move memory address of %rsp + 8216 to %rdx (%rsp + 8192 without pushing)
+<+320>: push on stack (%rdx)
+<+321>: move %rax[0x6061cb] to %r9                                                      # move pointer to input string to %r9
+<+328>
+<+331>
+<+334>
+<+339>: move <unknown text> to %edi                                                     # global variable "seal" (value returned from spider in initialize_bomb which should be "48404381")
+<+344>: call deer(%edi, %rsi, 3992, %rbx, %ebp, %r9, %rsp[8224], 0, %r12, %rsp[32])     # update and send server information to server
+<+349>: move %eax to %ebx
+<+351>: unallocate space from stack (32 bytes)
+<+355>: %eax = *%rsp                                                                    # value changed in notifier_871 (changed to an empty string unless memory allocation or reallocation fails)
+<+359>
+<+361>: jump to <+390> if %al == 10
+<+363>
+<+365>: jump to <+390> if %al == 0                                                      # jump if %rsp[0] stores '\n' or NULL
+<+367>
+<+370>: move <unknown text> to %esi                                                     # text is "%s"
+<+375>
+<+380>: move 0 to %eax
+<+385>: call __printf_chk(1, %esi, %rsp)
+<+390>
+<+392>: jump to <+404> if %ebx >= 0                                                     # jump and return number of characters printed if deer returned 0
+<+394>
+<+399>: exit(0)
+<+404>: unallocate space from stack (16384 bytes)
+<+411>
+<+412>
+<+413>: pop from stack (%rbx, %rbp, %12)
+<+415>: return

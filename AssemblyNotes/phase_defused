@@ -1,0 +1,42 @@
+
+<+0>: allocate 488 bytes on stack
+<+7>: move %edi to %esi                                                                 # 1st parameter passed (return value of bombphase)
+<+9>
+<+16>
+<+23>: %dl = infile == stdin stream
+<+26>
+<+29>
+<+34>: call send_msg(1, %esi, %dl)
+<+39>
+<+46>: jump to <+192> if num_input_strings != 6                                         # jump and return send_msg return value if there aren't 6 input strings
+<+52>: allocate 8 bytes on stack
+<+56>: move %rsp[392] to %rax                                                           # move memory address of %rsp + 392 to %rax (%rsp + 384 without pushing)
+<+64>: push %rax
+<+65>: move %rsp[16] to %r9                                                             # move memory address of %rsp + 16 to %r9
+<+70>: move %rsp[112] to %r8                                                            # move memory address of %rsp + 112 to %r8
+<+75>: move %rsp[208] to %rcx                                                           # move memory address of %rsp + 208 to %rcx
+<+83>: move %rsp[304] to %rdx                                                           # move memory address of %rsp + 304 to %rdx
+<+91>: move <unknown text> to %esi                                                      # text is "%s %s %s %s %s"
+<+96>: move <unknown text> to %edi                                                      # text is input string 3 (0x6061cb + 2 * 102)
+<+101>: move 0 to %eax
+<+106>: call __isoc99_sscanf(%edi, %esi, %rdx, %rcx, %r8, %r9, %rsp[400])
+<+111>: unallocate space from stack (16 bytes)
+<+115>
+<+118>: jump to <+172> if %eax != 5                                                     # jump if __isoc99_sscanf wasn't successful
+<+120>: move <unknown text> to %esi                                                     # text is "PaddyOBrien"
+<+125>: move %rsp[384] to %rdi                                                          # move memory address of %rsp + 384 to %rdi
+<+133>: call strings_not_equal(%rdi, %esi)
+<+138>
+<+140>: jump to <+172> if %eax != 0                                                     # jump and return send_msg return value if strings aren't equal
+<+142>: move <unknown text> to %edi                                                     # text is "Curses, you've found the secret phase!"
+<+147>: call puts(%edi)
+<+152>: move <unknown text> to %edi                                                     # text is "But finding it and solving it are quite different..."
+<+157>: call puts(%edi)
+<+162>: move 0 to %eax
+<+167>: call mqsecretphase()
+<+172>: move <unknown text> to %edi                                                     # text is "Congratulations! You've defused the bomb!"
+<+177>: call puts(%edi)
+<+182>: move <unknown text> to %edi                                                     # text is "Your instructor has been notified and will verify your solution."
+<+187>: call puts(%edi)
+<+192>: unallocate space from stack (488 bytes)
+<+199>: return

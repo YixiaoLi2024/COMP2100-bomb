@@ -1,0 +1,147 @@
+<+0>: allocate 24 bytes on stack
+<+4>: move 0 to %eax
+<+9>: call skip()                                                                       # writes input string into infile and returns pointer to input string
+<+14>
+<+17>: jump to <+97> if %rax != 0                                                       # jump if input string isn't empty
+<+19>
+<+26>
+<+33>: jump to <+55> if infile != stdin stream                                          # jump if infile isn't stdin (infile is a passed file)
+<+35>: move <unknown text> to %edi                                                      # text is "Error: Premature EOF on stdin"
+<+40>: call puts(%edi)
+<+45>
+<+50>: exit(8)
+<+55>: move stdin stream to infile
+<+62>: move 0 to %eax
+<+67>: call skip()                                                                      # writes input string into infile and returns pointer to input string
+<+72>
+<+75>: jump to <+97> if %rax != 0                                                       # jump if input string isn't empty
+<+77>: move <unknown text> to %edi                                                      # text is "Error: Premature EOF on stdin"
+<+82>: call puts(%edi)
+<+87>
+<+92>: exit(0)
+<+97>: move num_input_strings to %esi
+<+103>
+<+106>
+<+110>: %r8 = num_input_strings * 102 + 0x6061cb                                        # get memory address of next input
+<+117>: move 0 to %eax
+<+122>: move -1 to %rcx
+<+129>: move %r8 to %rdi
+<+132>: repeatedly scan through the input string until a NULL byte is found             # %rcx decreases each loop
+<+134>
+<+137>
+<+140>: move number of scanned bytes into %rdx                                          # doesn't include NULL byte
+<+144>: move %edx into %eax
+<+146>
+<+148>: jump to <+190> if %edx <= 0                                                     # jump if input is empty
+<+150>: %edi = %rdx - 1
+<+153>: move %edi to %r9                                                                # get last byte
+<+156>
+<+159>: %rcx = %esi * 102
+<+163>
+<+172>: jump to <+190> if %r9[%rcx + 0x6061cb] != 10                                    # jump if last byte of input isn't '\n'
+<+174>
+<+177>: %rcx = %esi * 102
+<+181>: %r9[%rcx + 0x6061cb] = 0                                                        # set last byte of input to NULL
+<+190>
+<+193>: jump to <+228> if %edx > 101                                                    # jump if input size is 102 bytes or more (doesn't include NULL byte)
+<+195>
+<+198>
+<+202>: %rcx = %esi * 102 + 0x605e60
+<+209>: move %eax to %rdx
+<+212>: %rdx[%rcx + 875] = 0                                                            # sets bytes after end of input string to NULL
+<+220>: add 1 to %eax
+<+223>
+<+226>: jump to <+209> if %eax != 102                                                   # repeat until input string is 102 bytes (including NULL bytes)
+<+228>: move 0 to %eax
+<+233>: move -1 to %rcx
+<+240>: move %r8 to %rdi
+<+243>: repeatedly scan through the input string until a NULL byte is found             # %rcx decreases each loop
+<+245>
+<+248>
+<+251>: move number of scanned bytes into %rax                                          # doesn't include NULL byte
+<+255>
+<+258>: jump to <+516> if %eax <= 80                                                    # jump if number of scanned bytes is 80 or less (doesn't include NULL byte)
+<+264>: move <unknown text> to %edi                                                     # text is "Error: Input line too long"
+<+269>: call puts(%edi)
+<+274>: move num_input_strings to %esi
+<+280>: move %esi to %rdx
+<+283>
+<+287>: %rdx = %esi * 102 + 0x6061cb
+<+294>: move -1 to %r8
+<+301>: move 0 to %eax
+<+306>: move %r8 to %rcx
+<+309>: move %rdx to %rdi
+<+312>: repeatedly scan through the input string until a NULL byte is found             # %rcx decreases each loop
+<+314>
+<+317>: move number of scanned bytes into %rax                                          # includes NULL byte
+<+320>: %rax = %rdx[%rax - 1]                                                           # sets %rax to memory address to NULL byte at end of input string
+<+325>: move 0x6e757254202a2a2a to %rdi
+<+335>: *%rax = %rdi
+<+338>: move 0x2a2a206465746163 to %rdi
+<+348>: *%rax[8] = %rdi
+<+352>: *%rax[16] = 0x2a                                                                # adds "*** truncated ***" to end of input string
+<+358>: add 1 to %esi
+<+361>: move %esi to num_input_strings                                                  # add 1 to num_input_strings
+<+367>
+<+374>
+<+381>: %dl = infile == stdin stream                                                    # %dl is type of input (stdin or passed file)
+<+384>
+<+387>
+<+392>
+<+395>: call send_msg(%r8d, 0, %dl)                                                     # send string to server as "input" bomb status
+<+400>: call trigger_bomb_now()                                                         # explode bomb if input string is longer than 80 bytes
+<+405>
+<+412>
+<+419>: jump to <+472> if infile != stdin stream                                        # jump and sleep for 1 second if infile is a passed file
+<+421>: *%rsp = 2
+<+429>: %rsp[8] = 0
+<+438>
+<+441>
+<+444>: call nanosleep(%rsp, %rsp)                                                      # sleep for 2 seconds (even if interrupted)
+<+449>
+<+451>: jump to <+621> if %eax == 0                                                     # jump and return input string if nanosleep was successful
+<+457>: call __errno_location()
+<+462>
+<+465>: jump to <+438> if *%rax == 4
+<+467>: jump to <+621>                                                                  # jump and return input string
+<+472>: %rsp[0] = 1
+<+480>: %rsp[8] = 0
+<+489>
+<+492>
+<+495>: call nanosleep(%rsp, %rsp)                                                      # sleep for 1 second (even if interrupted)
+<+500>
+<+502>: jump to <+621> if %eax == 0                                                     # jump and return input string if nanosleep was successful
+<+504>: call __errno_location()
+<+509>
+<+512>: jump to <+489> if *%rax == 4                                                    # jump if errno is EINTR (interrupted function)
+<+514>: jump to <+621>                                                                  # jump and return input string
+<+516>: add 1 to %esi
+<+519>: move %esi to num_input_strings                                                  # add 1 to num_input_strings
+<+525>
+<+532>
+<+539>: %dl = infile == stdin stream                                                    # %dl is type of input (stdin or passed file)
+<+542>
+<+545>
+<+550>
+<+555>: call send_msg(-1, 0, %dl)                                                       # send string to server as "input" bomb status
+<+560>: move num_input_strings to %eax
+<+566>: subtract 1 from %eax
+<+569>: convert %eax to %rax
+<+571>: %rax = %rax * 102
+<+575>: move %rax[0x6061cb] to %rdi                                                     # move memory address of %rax + 0x6061cb to %r8
+<+582>: move 0 to %eax
+<+587>: move -1 to %rcx
+<+594>: repeatedly scan through the input string until a NULL byte is found             # %rcx decreases each loop
+<+596>
+<+599>
+<+602>: move number of scanned bytes into %rax                                          # doesn't include NULL byte
+<+606>
+<+610>: jump to <+405> if %rax <= 80                                                    # jump and return input string if number of scanned bytes is 80 or less (doesn't include NULL byte)
+<+616>: jump to <+400>                                                                  # jump and explode bomb if input string is longer than 80 bytes
+<+621>
+<+627>: %eax = num_input_strings - 1
+<+630>: convert %eax to %rax
+<+632>
+<+636>: %rax = %rax * 102 + 0x6061cb                                                    # set return to input string
+<+642>: unallocate space from stack (24 bytes)
+<+646>: return

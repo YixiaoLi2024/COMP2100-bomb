@@ -1,0 +1,599 @@
+<+0>
+<+2>
+<+4>
+<+6>
+<+8>
+<+9>: push on stack (%r15, %r14, %r13, %r12, %rbp, %rbx)
+<+10>: allocate 254168 bytes on stack
+<+17>: move %rdi to %r14                                                                # 1st passed parameter (%rdi is socket connection pointer for reading)
+<+20>: move %rsi to %rbx                                                                # 2nd passed parameter (%rsi is socket connection pointer for writing)
+<+23>: move %rdx to %r13                                                                # 3rd passed parameter (%rdx is "close")
+<+26>: move %ecx to %r15d                                                               # 4th passed parameter (%rcx is 3992)
+<+29>: move %r8 to %rbp                                                                 # 5th passed parameter (%r8 is "open")
+<+32>: move %r9d to %r12d                                                               # 6th passed parameter (%r9 is 0)
+<+35>
+<+40>: move rsp[80] to %rdi                                                             # %rdi contains memory address rsp[80]
+<+45>: call gettimeofday(%rsp[80], 0)                                                   # returns seconds and microseconds since the epoch (January 1, 1970, 00:00:00)
+<+50>
+<+52>: jump to <+91> if %eax < 0                                                        # jump and exit the program if gettimeofday is unsuccessful
+<+54>: move 0 to %edx                                                                   # loop count
+<+59>: move <unknown text> to %esi
+<+64>: jump to <+199>                                                                   # jump if gettimeofday is successful
+<+69>: %esi = %rdx - 32
+<+72>
+<+76>: jump to <+83> if %sil <= 94                                                      # jump if byte is a printable character
+<+78>
+<+81>: jump to <+101> if %dl != 10                                                      # jump if %dl isn't a line break ('\n')
+<+83>: *%rax = %dl                                                                      # add printable ASCII characters to rax
+<+85>: rax = rax[1]                                                                     # get next byte
+<+89>: jump to <+101>
+<+91>: move 0 to %ecx                                                                   # loop count
+<+96>: move <unknown text> to %eax                                                      # pointer at the start of the printable ASCII string
+<+101>: add 1 to %ecx                                                                   # increment loop
+<+104>: move %ecx to %rdx
+<+107>: move %rdx[0x4040c8] to %edx                                                     # get value of next byte
+<+114>
+<+117>: jump to <+69> if %dl != 127                                                     # repeat until DEL is found
+<+119>: *%rax = 0                                                                       # sets last byte to NULL
+<+122>: move <unknown text> to %edi                                                     # pointer at the start of the printable ASCII string
+<+127>: call strdup(%edi)                                                               # returns a pointer to the string
+<+132>
+<+135>: move <unknown text> to %ecx                                                     # pointer at the start of the printable ASCII string
+<+140>: move %rax to %rcx if %rax != 0                                                  # %rcx is a pointer to the ASCII string
+<+144>: move <unknown text> to %edx                                                     # text is "%s\n"
+<+149>
+<+154>: move stderr stream to %rdi
+<+161>: move 0 to %eax
+<+166>: call __printf_chk(%rdi, 1, %edx, %rcx)                                          # print ASCII string (error message) to stderr stream
+<+171>
+<+176>: exit(210)
+<+181>: %ecx = %rax - 32
+<+184>
+<+187>: jump to <+193> if %cl <= 94                                                     # jump if byte is a printable character
+<+189>
+<+191>: jump to <+199> if %al != 10                                                     # jump if %al isn't a line break ('\n')
+<+193>: *%rsi = %al                                                                     # add printable ASCII characters to rsi
+<+195>: rsi = rsi[1]                                                                    # get next byte
+<+199>: add 1 to %edx                                                                   # increment loop
+<+202>: move %edx to %rax
+<+205>: move %rax[0x404150] to %eax                                                     # get value of next byte
+<+212>
+<+214>: jump to <+181> if %al != 127                                                    # repeat until DEL is found
+<+216>: *%rsi = 0                                                                       # sets last byte to NULL
+<+219>: move <unknown text> to %edi                                                     # pointer at the start of the printable ASCII string
+<+224>: call strdup(%edi)                                                               # returns a pointer to the string
+<+229>
+<+232>: move <unknown text> to %ecx                                                     # pointer at the start of the printable ASCII string
+<+237>: move %rax to %rcx if %rax != 0                                                  # %rcx is a pointer to the ASCII string
+<+241>
+<+243>: push on stack (%r15, %r13)
+<+245>
+<+251>
+<+257>
+<+262>
+<+267>: move %rsp[128] to %rdi                                                          # move memory address of %rsp + 128 to %rdi (%rsp + 112 without pushing)
+<+275>: move 0 to %eax
+<+280>: call __sprintf_chk(%rdi, 1, 81941, %rcx, 0x608a00, 2, %r13, %r15)               # update server information (user, lab, stage, bomb)
+<+285>: move 1222997498854844 to %rsi
+<+295>: add %rsp[104] to %rsi
+<+300>: move 6407816362446475825 to %rcx
+<+310>
+<+313>: multiply %rcx by %rsi                                                           # stored in %rdx:%rax
+<+316>
+<+319>
+<+322>
+<+325>
+<+328>: %rax = (%rsi + %rdx)/128
+<+332>
+<+336>
+<+340>: %rdx = 95*%rax
+<+343>
+<+346>: %rdi = %rsi - %rdx                                                              # %rdi = %rsi % 95
+<+349>: move %rdi to %rax
+<+352>: add 32 to %eax                                                                  # converts %rax to 32 bits
+<+355>: %rsp[112] = %al                                                                 # stores a printable character in %rsp[112] (memory address is %rsp + 96 without pushing)
+<+359>
+<+362>: %rax = 32*%rsi
+<+366>
+<+371>: %rsi = %rsi + %rsp[96] + %rax
+<+374>: move %rsi to %rax
+<+377>: multiply %rcx by %rsi                                                           # stored in %rdx:%rax
+<+380>
+<+383>
+<+386>
+<+389>
+<+392>: %rax = (%rsi + %rdx)/128
+<+396>
+<+400>
+<+404>: %rdx = 95*%rax
+<+407>
+<+410>: %rdi = %rsi - %rdx                                                              # %rdi = %rsi % 95
+<+413>: move %rdi to %rax
+<+416>: add 32 to %eax                                                                  # converts %rax to 32 bits
+<+419>: %rsp[113] = %al                                                                 # store a printable character in %rsp[113] (memory address is %rsp + 97 without pushing)
+<+423>: move 6364136223846793005 to %rdi
+<+433>
+<+437>: %rsi = %rsi * %rdi + 1
+<+441>
+<+444>: %r8 = %rsi/4294967296                                                           # move upper 32 bits of %rsi into %r8
+<+448>: move %r8 to %rax
+<+451>: multiply %rcx by %rsi                                                           # stored in %rdx:%rax
+<+454>
+<+457>
+<+460>
+<+463>
+<+466>: %rax = (%r8 + %rdx)/128
+<+470>
+<+474>
+<+478>: %rdx = 95*%rax
+<+481>: %r8 = %r8 - %rdx                                                                # %r8 = %r8 % 95
+<+484>: move %r8 to %rax
+<+487>: add 32 to %eax                                                                  # converts %rax to 32 bits
+<+490>: %rsp[114] = %al                                                                 # store a printable character in %rsp[114] (memory address is %rsp + 98 without pushing)
+<+494>: %rsi = %rsi * %rdi
+<+498>
+<+502>: %rax = (%rsi + 1)/34359738368                                                   # move upper 29 bits of %rsi + 1 into %rax
+<+506>: move %rax to %rsi
+<+509>: multiply %rcx by %rsi                                                           # stored in %rdx:%rax
+<+512>
+<+515>
+<+518>
+<+521>
+<+524>: %rax = (%rsi + %rdx)/128
+<+528>
+<+532>
+<+536>: %rdx = 95*%rax
+<+539>: %rsi = %rsi - %rdx                                                              # %rsi = %rsi % 95
+<+542>: move %rsi to %rax
+<+545>: add 32 to %eax                                                                  # converts %rax to 32 bits
+<+548>: %rsp[115] = %al                                                                 # store a printable character in %rsp[115] (memory address is %rsp + 99 without pushing)
+<+552>: unallocate space from stack (16 bytes)
+<+556>: move 0 to %edx                                                                  # loop count
+<+561>: move <unknown text> to %esi                                                     # pointer at the start of the printable ASCII string
+<+566>: jump to <+586>                                                                  # jump and scan and read %rcx string for __sprintf_chk()
+<+568>: %ecx = %rax - 32
+<+571>
+<+574>: jump to <+580> if %cl <= 94                                                     # jump if byte is a printable character
+<+576>
+<+578>: jump to <+586> if %al != 10                                                     # jump if %al isn't a line break ('\n')
+<+580>: *%rsi = %al                                                                     # add printable ASCII characters to rsi
+<+582>: rsi = rsi[1]                                                                    # get next byte
+<+586>: add 1 to %edx                                                                   # increment loop
+<+589>: move %edx to %rax
+<+592>: move %rax[0x404230] to %eax                                                     # get value of next byte
+<+599>
+<+601>: jump to <+568> if %al != 127                                                    # repeat until DEL is found
+<+603>: *%rsi = 0                                                                       # sets last byte to NULL
+<+606>: move <unknown text> to %edi                                                     # pointer at the start of the printable ASCII string
+<+611>: call strdup(%edi)                                                               # returns a pointer to the string
+<+616>
+<+619>: move <unknown text> to %ecx                                                     # pointer at the start of the printable ASCII string
+<+624>: move %rax to %rcx if %rax != 0                                                  # %rcx is a pointer to the ASCII string
+<+628>: move %rsp[164016] to %r13                                                       # move memory address of %rsp + 164016 to %r13
+<+636>: move %rsp[254240] to %eax                                                       # value at %rsp + 16 after exiting function
+<+643>
+<+644>
+<+649>
+<+656>: push on stack (%rax, 0x31706, %rsp[254240], %r12)                               # %rax is 0, 0x31706 is "202502", %rsp[254240] is memory address %rsp + 254224 without pushing (%rsp after exiting function)
+<+658>
+<+661>: move %rsp[128] to %r8                                                           # move memory address of %rsp + 128 to %r8 (%rsp + 96 without pushing) (%r8 is randomly generated)
+<+669>
+<+674>
+<+679>
+<+682>: move 0 to %eax
+<+687>: call __sprintf_chk(%r13, 1, 81941, %rcx, %r8, %rbp, %r12, %rsp[254256], 0x31706, %rax)                             # update server information (header, status, mark, input, course, interactive)
+<+692>: move 0 to %eax
+<+697>: move -1 to %rcx
+<+704>: move %r13 to %rdi
+<+707>: repeatedly scan through the record until a NULL byte is found                   # %rcx decreases each loop
+<+709>
+<+712>
+<+715>: move number of scanned bytes into %r12d                                         # doesn't include NULL byte
+<+719>: move environ into %r13
+<+726>: move %r13[0] to %rbp                                                            # stores the first environ field record in %rbp
+<+730>: unallocate space from stack (32 bytes)
+<+734>
+<+737>: jump to <+994> if %rbp == 0                                                     # jump if the first environ field record was stored unsuccessfully
+<+743>: %rsp[0] = 1598575443
+<+750>: %rsp[4] = 0
+<+755>: %rsp[16] = 1380275029
+<+763>: %rsp[20] = 0
+<+768>: %rsp[32] = 1313296204
+<+776>: %rsp[36] = 0
+<+781>: %rsp[48] = 1162694472
+<+789>: %rsp[52] = 0
+<+794>
+<+799>
+<+802>
+<+805>: call strncmp(%rbp, %rsp, 4)
+<+810>
+<+812>: jump to <+858> if %eax == 0                                                     # jump if %rsp[0] matches environ field record
+<+814>
+<+819>: move %rsp[16] to %rsi                                                           # move memory address of %rsp + 16 to %rsi
+<+824>
+<+827>: call strncmp(%rbp, %rsi, 4)
+<+832>
+<+834>: jump to <+858> if %eax == 0                                                     # jump if %rsp[16] matches environ field record
+<+836>
+<+841>: move %rsp[32] to %rsi                                                           # move memory address of %rsp + 32 to %rsi
+<+846>
+<+849>: call strncmp(%rbp, %rsi, 4)
+<+854>
+<+856>: jump to <+882> if %eax != 0                                                     # jump if %rsp[32] doesn't match environ field record
+<+858>: move %rbp[0] to %eax                                                            # move environ field record to %eax if a value matches environ field record
+<+862>
+<+864>: jump to <+961> if %al == 0                                                      # jump if lowest byte of environ field record is 0
+<+866>: move 0 to %edx                                                                  # loop count
+<+871>
+<+878>: jump to <+906> if %r12d <= 81920                                                # jump if record of server information contains less than 81921 bytes (not including NULL byte)
+<+880>: jump to <+961>                                                                  # jump if record of server information contains 81921 or more bytes (not including NULL byte)
+<+882>
+<+887>: move %rsp[48] to %rsi                                                           # move memory address of %rsp + 48 to %rsi
+<+892>
+<+895>: call strncmp(%rbp, %rsi, 4)
+<+900>
+<+902>: jump to <+858> if %eax == 0                                                     # jump if %rsp[48] matches environ field record
+<+904>: jump to <+977>                                                                  # jump if environ field record doesn't match any of the 4 values (%rsp[0], %rsp[16], %rsp[32], %rsp[48])
+<+906>: %ecx = %rax - 32
+<+909>
+<+912>: jump to <+932> if %cl > 94                                                      # jump if byte is not a printable character
+<+914>: move %r12d to %rcx                                                              # find byte in %rsp (after the environ field) with value stored
+<+917>: %rsp[%rcx + 164016] = %al                                                       # store byte of environ field record value (environ is stored after server information)
+<+924>: add 1 to %edx                                                                   # increment loop
+<+927>: r12d = r12 + 1                                                                  # get next byte
+<+932>: add 1 to %rbp
+<+936>: move %rbp[0] to %eax                                                            # get next byte of environ field record
+<+940>
+<+942>: jump to <+961> if %al == 0                                                      # break out of loop if the end of environ field record was reached
+<+944>
+<+950>: jump to <+961> if %edx > 8191                                                   # break out of loop if loop counter exceeds 8191 (read more than 8191 bytes)
+<+952>
+<+959>: jump to <+906> if %r12d <= 81920                                                # repeat until %r12d contains 81921 or more bytes
+<+961>: move %r12d to %rax
+<+964>: %rsp[%rax + 164016] = 10                                                        # sets last byte of each environ field record to '\n'
+<+972>: r12d = r12 + 1                                                                  # get next byte
+<+977>: add 8 to %r13                                                                   # get next field record of environ
+<+981>: move %r13[0] to %rbp
+<+985>
+<+988>: jump to <+743> if %rbp != 0                                                     # repeat until environ has been looped through
+<+994>: move %r12d to %rax                                                              # move size of stored record to %rax
+<+997>: rsp[rax + 164016] = 10                                                          # sets last byte at end of stored record to '\n'
+<+1005>: %eax = %r12 + 1
+<+1010>: convert %eax to %rax
+<+1012>: rsp[rax + 164016] = 0                                                          # sets last byte to NULL
+<+1020>: move %rsp[164016] to %eax                                                      # move stored record to %eax
+<+1028>
+<+1030>: jump to <+1168> if %al == 0                                                    # jump if stored record is NULL
+<+1036>: move 0 to %esi                                                                 # loop count
+<+1041>: move 0 to %ecx
+<+1046>: move 0xac7691840ac76919 to %rdi
+<+1056>: %edx = %rax - 32
+<+1059>
+<+1062>: jump to <+1140> if %dl > 94                                                    # jump if byte is not a printable character
+<+1064>
+<+1067>: %eax = %al - 32
+<+1070>: convert %eax to %rax
+<+1072>
+<+1076>
+<+1080>: %rax = 32*(%rax + 34) + %rcx
+<+1083>: %rcx = 9*%rax
+<+1087>
+<+1090>: multiply %rdi by %rcx                                                          # stored in %rdx:%rax
+<+1093>
+<+1096>: %rdx = (%rdx + %rcx)/64                                                        # signed division
+<+1100>
+<+1103>: %rax = %rcx/(2^63)                                                             # signed division
+<+1107>: %rdx = %rdx - %rax
+<+1110>
+<+1114>
+<+1118>: %rax = 95*%rdx
+<+1121>: %rcx = %rcx - %rax                                                             # %rcx = %rcx % 95
+<+1124>: add 32 to %ecx                                                                 # converts %rcx to 32 bits
+<+1127>: %rsp[%rsi + 82064] = %cl                                                       # store an unprintable character if byte of stored record is a printable ASCII character (scrambled text)
+<+1134>: move %cl to %rcx
+<+1138>: jump to <+1147>
+<+1140>: %rsp[%rsi + 82064] = %al                                                       # store byte of stored record if it is an unprintable ASCII character
+<+1147>: add 1 to %rsi                                                                  # increment loop
+<+1151>: move %rsi to %rdx
+<+1154>: move %rsp[%rsi + 164016] to %eax                                               # get next byte of stored record
+<+1162>
+<+1164>: jump to <+1056> if %al != 0                                                    # repeat until end of stored record has been reached
+<+1166>: jump to <+1173>
+<+1168>: move 0 to %edx                                                                 # sets %edx to 0 if stored record is NULL
+<+1173>: %rsp[%rdx + 82064] = 0                                                         # sets last byte to NULL
+<+1181>
+<+1184>: move %rsp[112] to %rdi                                                         # move memory address of %rsp + 112 to %rdi (stores server information (user, lab, stage, bomb))
+<+1189>: call fputs(%rdi, %rbx)
+<+1194>
+<+1197>
+<+1202>: call fputc('=', %rbx)
+<+1207>
+<+1210>: move %rsp[82064] to %rdi                                                       # move memory address of %rsp + 82064 to %rdi (stores scrambled stored record text)
+<+1218>: call fputs(%rdi, %rbx)                                                         # print server information (user, lab, stage, bomb) "=" server information (header, status, mark, input, course, interactive) + environ to %rbx
+<+1223>
+<+1226>: call fflush(%rbx)                                                              # send output to server
+<+1231>
+<+1234>
+<+1239>: move %rsp[245968] to %rdi                                                      # move memory address of %rsp + 245968 to %rdi
+<+1247>: call fgets(%rdi, 8192, %r14)                                                   # move the first 8192 bytes in %r14 into %rsp + 245968 (%r14 is "+\n")
+<+1252>
+<+1255>: jump to <+1265> if %rax != 0                                                   # jump if fgets was successful
+<+1257>: %rsp[245968] = 0                                                               # make the byte 0 if fgets was unsuccessful
+<+1265>: %rsp[163984] = 0
+<+1273>: move 0 to %r13d
+<+1279>: move 81920 to %r12d
+<+1285>: move 0 to %ebp
+<+1290>: move -1 to %r15
+<+1297>: move %ebp to %rbx                                                              # move the scanned number of bytes (doesn't include NULL byte) into %rbx
+<+1300>: move %rsp[82064] to %rax                                                       # move memory address of %rsp + 82064 to %rax
+<+1308>: add %rax to %rbx                                                               # move memory address of %rsp + %ebp + 82064 to %rbx
+<+1311>
+<+1314>
+<+1317>
+<+1320>: call fgets(%rbx, 81920, %r14)                                                  # move the first 81920 bytes in %r14 into %rsp + %ebp + 82064 (%r14 is different each time)
+<+1325>
+<+1328>: jump to <+1483> if %rax == 0                                                   # jump out of loop if fgets was unsuccessful
+<+1334>: move %r15 to %rcx                                                              # %rcx is -1
+<+1337>: move %rbx to %rdi                                                              # moves memory address of %rsp + 82064 to %rdi
+<+1340>: move 0 to %eax
+<+1345>: repeatedly scan through the record until a NULL byte is found                  # %rcx decreases each loop
+<+1347>
+<+1350>: change %rcx to number of scanned bytes                                         # doesn't include NULL byte
+<+1354>: move %ecx to %eax
+<+1356>: subtract %ecx from %r12d
+<+1359>
+<+1362>: jump to <+1384> if %ecx != 1                                                   # jump if scanned number of bytes isn't 1
+<+1364>: move %ebp to %rdx                                                              # move previous number of scanned bytes (doesn't include NULL byte) to %rdx
+<+1367>
+<+1375>: %dl = %rsp[%rdx + 82064] == 10                                                 # sets %dl to 1 if 1st byte of scanned string is '\n'
+<+1378>: move %dl to %edx                                                               # zero extend %dl to %edx
+<+1381>: add %edx to %r13d
+<+1384>
+<+1387>: jump to <+1395> if %r12d <= 0                                                  # jump if number of scanned bytes is 81920 or more
+<+1389>
+<+1393>: jump to <+1476> if %r13d <= 1                                                  # jump if less than 2 1st byte '\n' has been encountered
+<+1395>: add %ebp to %eax                                                               # %eax becomes the total number of scanned bytes (doesn't include NULL byte)
+<+1397>
+<+1400>: jump to <+1447> if %eax <= 1                                                   # jump and make the string consist of the scanned bytes if total number of scanned bytes is less than 2
+<+1402>: %ebp = %rax - 1
+<+1405>: move %ebp to %rdx
+<+1408>
+<+1416>: jump to <+1440> if %rsp[%rdx + 82064] == 10                                    # jump if last byte of scanned string is '\n'
+<+1418>: move %eax to %ebp                                                              # move total number of scanned bytes (doesn't include NULL byte) to %ebp
+<+1420>: jump to <+1449>                                                                # jump and make the string be a maximum of 81920 bytes (not including NULL byte)
+<+1422>: %eax = %rbp - 1
+<+1425>: move %eax to %rdx                                                              # get previous byte
+<+1428>
+<+1436>: jump to <+1449> if %rsp[%rdx + 82064] != 10                                    # jump if byte of scanned string isn't '\n'
+<+1438>: move %eax to %ebp
+<+1440>
+<+1443>: jump to <+1422> if %ebp != 1                                                   # loop if the byte isn't the 2nd byte from the start of the string
+<+1445>: jump to <+1463>                                                                # jump and make the string the 1 byte long (doesn't include NULL byte)
+<+1447>: move %eax to %ebp                                                              # move total number of scanned bytes (doesn't include NULL byte) to %ebp
+<+1449>
+<+1455>: move 81920 to %eax
+<+1460>: move %eax to %ebp if %ebp >= 81921                                             # make %ebp (total number of scanned bytes excluding NULL byte) be a maximum of 81920
+<+1463>: move %ebp to %rax
+<+1466>: %rsp[%rax + 82064] = 0                                                         # sets last byte to NULL
+<+1474>: jump to <+1483>                                                                # exit the loop
+<+1476>: add %ecx to %ebp                                                               # add scanned number of bytes (doesn't include NULL byte) to %ebp
+<+1478>: jump to <+1297>                                                                # loop again and scan the next 81920 bytes
+<+1483>: move %ebp to %rbp
+<+1486>: move %rsp[%rbp + 82064] = 0                                                    # sets last byte to NULL
+<+1494>: move %rsp[82064] to %eax                                                       # move the scanned string (of %r14) to %eax
+<+1502>
+<+1504>: jump to <+2350> if %al == 0                                                    # jump if the string is empty
+<+1510>: move 0 to %esi
+<+1515>: move 0 to %ecx
+<+1520>: move 0xac7691840ac76919 to %rdi
+<+1530>: %edx = %rax - 32
+<+1533>
+<+1536>: jump to <+1614> if %dl > 94                                                    # jump if byte is not a printable character
+<+1538>
+<+1541>: %eax = %al - 32
+<+1544>: convert %eax to %rax
+<+1546>
+<+1550>
+<+1554>: %rax = 32*(%rax + 34) + %rcx
+<+1557>: %rcx = 9*%rax
+<+1561>: move %rcx to %rax
+<+1564>: multiply %rdi by %rcx                                                          # stored in %rdx:%rax
+<+1567>
+<+1570>: %rdx = (%rdx + %rcx)/64                                                        # signed division
+<+1574>
+<+1577>: %rax = %rcx/(2^63)                                                             # signed division
+<+1581>: %rdx = %rdx - %rax
+<+1584>
+<+1588>
+<+1592>: %rax = 95*%rdx
+<+1595>: %rcx = %rcx - %rax                                                             # %rcx = %rcx % 95
+<+1598>: add 32 to %ecx                                                                 # converts %rcx to 32 bits
+<+1601>: %rsp[%rsi + 164016] = %cl                                                      # stores a printable character if byte of scanned string is a printable ASCII character (unscrambled text)
+<+1608>: move %cl to %rcx
+<+1612>: jump to <+1621>
+<+1614>: %rsp[%rsi + 164016] = %al                                                      # store byte of scanned string if it is an unprintable ASCII character
+<+1621>: add 1 to %rsi                                                                  # increment loop
+<+1625>: move %rsp[%rsi + 82064] to %eax                                                # get next byte of scanned string
+<+1633>
+<+1635>: jump to <+1530> if %al != 0                                                    # repeat until end of scanned string has been reached
+<+1637>: %rsp[%rsi + 164016] = 0                                                        # sets last byte to NULL
+<+1645>
+<+1650>: move %rsp[164020] to %rsi                                                      # move memory address of %rsp + 164020 to %rsi
+<+1658>: move %rsp[82064] to %rdi                                                       # move memory address of %rsp + 82064 to %rdi
+<+1666>: call strncpy(%rdi, %rsi, 81921)                                                # moves unscrambled text without header into %rsp + 82064 (user, time)
+<+1671>
+<+1676>: move %rsp[64] to %rdi                                                          # move memory address of %rsp + 64 to %rdi
+<+1681>: call gettimeofday(%rsp[64], 0)                                                 # returns seconds and microseconds since the epoch (January 1, 1970, 00:00:00)
+<+1686>
+<+1688>: jump to <+1802> if %eax >= 0                                                   # jump if gettimeofday if successful
+<+1690>: move 0 to %ecx                                                                 # loop count
+<+1695>: move <unknown text> to %eax                                                    # pointer at the start of the printable ASCII string
+<+1700>: jump to <+1722>                                                                # exit the program
+<+1702>: %esi = %rdx - 32
+<+1705>
+<+1709>: jump to <+1716> if %sil <= 94                                                  # jump if byte is a printable character
+<+1711>
+<+1714>: jump to <+1722> if %dl != 10                                                   # jump if %dl isn't a line break ('\n')
+<+1716>: *%rax = %dl                                                                    # add printable ASCII characters to rax
+<+1718>: rax = rax[1]                                                                   # get next byte
+<+1722>: add 1 to %ecx                                                                  # increment loop
+<+1725>: move %ecx to %rdx
+<+1728>: move %rdx[0x404388] to %edx                                                    # get value of next byte
+<+1735>
+<+1738>: jump to <+1702> if %dl != 127                                                  # repeat until DEL is found
+<+1740>: *%rax = 0                                                                      # sets last byte to NULL
+<+1743>: move <unknown text> to %edi                                                    # pointer at the start of the printable ASCII string
+<+1748>: call strdup(%edi)                                                              # returns a pointer to the string
+<+1753>
+<+1756>: move <unknown text> to %ecx                                                    # pointer at the start of the printable ASCII string
+<+1761>: move %rax to %rcx if %rax != 0                                                 # %rcx is a pointer to the ASCII string
+<+1765>: move <unknown text> to %edx                                                    # text is "%s\n"
+<+1770>
+<+1775>: move stderr stream to %rdi
+<+1782>: move 0 to %eax
+<+1787>: call __printf_chk(%rdi, 1, %edx, %rcx)                                         # print ASCII string (error message) to stderr stream
+<+1792>
+<+1797>: exit(211)
+<+1802>: set %xmm0 to 0
+<+1806>: convert %rsp[64] to %xmm0                                                      # store 2nd tv_sec value in %xmm0
+<+1813>: set %xmm1 to 0
+<+1817>: convert %rsp[80] to %xmm1                                                      # store 1st tv_sec value in %xmm1
+<+1824>: %xmm0 = %xmm0 - %xmm1
+<+1828>: %xmm1 = %xmm0                                                                  # tv_sec difference is stored in %xmm0
+<+1832>: set %xmm0 to 0
+<+1836>: convert %rsp[72] to %xmm0                                                      # store 2nd tv_usec value in %xmm0
+<+1843>: set %xmm2 to 0
+<+1847>: convert %rsp[88] to %xmm2                                                      # store 1st tv_usec value in %xmm2
+<+1854>: %xmm0 = %xmm0 - %xmm2
+<+1858>: %xmm0 = %xmm0/1000000
+<+1866>: add %xmm1 to %xmm0 = (%xmm0 - %xmm2)/1000000 + %xmm1                           # time is stored in %xmm0 (in seconds)
+<+1870>: %xmm1 = 0.35
+<+1878>
+<+1882>: jump to <+1894> if %xmm1 <= %xmm0                                              # jump if processing time is longer than 0.35 seconds
+<+1884>
+<+1889>: exit(212)                                                                      # exit if processing time is shorter than 0.35 seconds
+<+1894>: %eax = %rsp[245968]                                                            # %eax stores %r14 (%r14 is "+\n")
+<+1902>
+<+1904>: jump to <+2206> if %al == 43                                                   # jump if byte is "+" and return 0
+<+1910>
+<+1912>: jump to <+2011> if %al = 45                                                    # jump if byte is "-" and return a negative number
+<+1914>: jump to <+1936>                                                                # jump if byte isn't "+" or "-" and return -1
+<+1916>: %ecx = %rax - 32
+<+1919>
+<+1922>: jump to <+1928> if %cl <= 94                                                   # jump if byte is a printable character
+<+1924>
+<+1926>: jump to <+1946> if %al != 10                                                   # jump if %al isn't a line break ('\n')
+<+1928>: *%rsi = %al                                                                    # add printable ASCII characters to rsi
+<+1930>: rsi = rsi[1]                                                                   # get next byte
+<+1934>: jump to <+1946>
+<+1936>: move 0 to %edx                                                                 # loop count
+<+1941>: move <unknown text> to %edi                                                    # pointer at the start of the printable ASCII string
+<+1946>: add 1 to %edx                                                                  # increment loop
+<+1949>: move %edx to %rax
+<+1952>: move %rax[0x404400] to %eax                                                    # get value of next byte
+<+1959>
+<+1961>: jump to <+1916> if %al != 127                                                  # repeat until DEL is found
+<+1963>: *%rsi = 0                                                                      # sets last byte to NULL
+<+1966>: move <unknown text> to %edi                                                    # pointer at the start of the printable ASCII string
+<+1971>: call strdup(%edi)                                                              # returns a pointer to the string
+<+1976>
+<+1979>: move <unknown text> to %esi                                                    # pointer at the start of the printable ASCII string
+<+1984>: move %rax to %rsi if %rax != 0                                                 # %rsi is a pointer to the ASCII string
+<+1988>: move %rsp[254248] to %rdi
+<+1996>: call strcpy(%rdi, %rsi)                                                        # %rdi is a copy of printable ASCII string
+<+2001>: set return to -1
+<+2006>: jump to <+2412>                                                                # return -1
+<+2011>: %rsp[245964] = -1
+<+2022>: move 0 to %edx                                                                 # loop count
+<+2027>: move <unknown text> to %edi                                                    # pointer at the start of the printable ASCII string
+<+2032>: jump to <+2052>
+<+2034>: %ecx = %rax - 32
+<+2037>
+<+2040>: jump to <+2046> if %cl <= 94                                                   # jump if byte is a printable character
+<+2042>
+<+2044>: jump to <+2052> if %al != 10                                                   # jump if %al isn't a line break ('\n')
+<+2046>: *%rsi = %al                                                                    # add printable ASCII characters to rsi
+<+2048>: rsi = rsi[1]                                                                   # get next byte
+<+2052>: add 1 to %edx                                                                  # increment loop
+<+2055>: move %edx to %rax
+<+2058>: move %rax[0x40445a] to %eax                                                    # get value of next byte
+<+2065>
+<+2067>: jump to <+2034> if %al != 127                                                  # repeat until DEL is found
+<+2069>: *%rsi = 0                                                                      # sets last byte to NULL
+<+2072>: move <unknown text> to %edi                                                    # pointer at the start of the printable ASCII string
+<+2077>: call strdup(%edi)                                                              # returns a pointer to the string
+<+2082>
+<+2085>: move <unknown text> to %esi                                                    # pointer at the start of the printable ASCII string
+<+2090>: move %rax to %rsi if %rax != 0                                                 # %rsi is a pointer to the ASCII string
+<+2094>: move %rsp[245964] to %rdx                                                      # move memory address of %rsp + 245964 to %rdx
+<+2102>: move %rsp[245968] to %rdi                                                      # move memory address of %rsp + 245968 to %rdi (stores %r14)
+<+2110>: move 0 to %eax
+<+2115>: call __isoc99_sscanf(%rdi, %rsi, %rdx)                                         # reads socket connection pointer for reading and stores it in %rsp + 245964
+<+2120>: %eax = %rsp[245964]
+<+2127>
+<+2129>: jump to <+2140> if %eax <= 0                                                   # jump if value at memory address %rsp + 245964 isn't positive
+<+2131>: %eax = -%eax
+<+2133>: %rsp[245964] = %eax
+<+2140>: move %rsp[82064] to %rdi                                                       # move memory address of %rsp + 82064 to %rdi (%rdi is server information + environ in format "user" + "time")
+<+2148>: call notifier_60(%rdi)                                                         # notifier_60 writes NULL to every byte in %rsp + 82064
+<+2153>
+<+2158>: move %rsp[82064] to %rsi                                                       # move memory address of %rsp + 82064 to %rsi
+<+2166>: move %rsp[254248] to %rdi
+<+2174>: call strncpy(%rdi, %rsi, 8191)                                                 # move empty string to %rsp + 254248
+<+2179>: %rax = %rsp[254248]                                                            # %rsp[254248] points to copied string (%rsp + 24 after exiting function)
+<+2187>: %rax[8191] = 0                                                                 # make the string have a maximum of 8191 bytes
+<+2194>: %eax = %rsp[245964]
+<+2201>: jump to <+2412>                                                                # return a negative number
+<+2206>: move %rsp[82064] to %rdi                                                       # move memory address of %rsp + 82064 to %rdi (%rdi is server information + environ in format "user" + "time")
+<+2214>: call notifier_60(%rdi)                                                         # notifier_60 writes NULL to every byte in %rsp + 82064
+<+2219>: %eax = %rsp[82064]
+<+2227>
+<+2229>: jump to <+2332> if %al == 0                                                    # jump if stored record is empty (memory allocation or reallocation is successful)
+<+2231>: move %rsp[82064] to %rbx                                                       # move memory address of %rsp + 82064 to %rbx
+<+2239>: move 0 to %ecx
+<+2244>: move %rax[-9] to %edx                                                          # move memory address of %rax - 9 to %edx
+<+2247>
+<+2250>: jump to <+2280> if %dl > 1                                                     # jump if byte isn't NULL or SOH
+<+2252>
+<+2254>: jump to <+2300> if %ecx == 0
+<+2256>: move stderr stream to %rsi
+<+2263>
+<+2268>: call _IO_putc(10, %rsi)                                                        # write '\n' to stderr stream
+<+2273>: move 0 to %ecx
+<+2278>: jump to <+2300>
+<+2280>
+<+2283>: move stderr stream to %rsi
+<+2290>: call _IO_putc(%al, %rsi)                                                       # write 1st byte of stored record to stderr stream
+<+2295>: move 1 to %ecx
+<+2300>: add 1 to %rbx
+<+2304>: %eax = *%rbx
+<+2307>
+<+2309>: jump to <+2244> if %al != 0                                                    # repeat until stored record is empty
+<+2311>
+<+2313>: jump to <+2332> if %ecx == 0                                                   # jump if '\n' was the last byte printed to stderr stream
+<+2315>: move stderr stream to %rsi
+<+2322>
+<+2327>: call _IO_putc(10, %rsi)                                                        # write '\n' to stderr stream if '\n' wasn't written previously
+<+2332>: %rax = %rsp[254248]                                                            # %rsp + 254248 is 10th passed parameter (%rsp + 24 after exiting the function)
+<+2340>: *%rax = 0
+<+2343>: move 0 to %eax
+<+2348>: jump to <+2412>                                                                # return 0
+<+2350>: %rsp[164016] = 0
+<+2358>
+<+2363>: move %rsp[164020] to %rsi                                                      # move memory address of %rsp + 164020 to %rsi
+<+2371>: move %rsp[82064] to %rdi                                                       # move memory address of %rsp + 82064 to %rdi
+<+2379>: call strncpy(%rdi, %rsi, 81921)                                                # move 81921 bytes after 4 bytes from the start of stored record to %rsp + 82064
+<+2384>
+<+2389>: move %rsp[64] to %rdi                                                          # move memory address of %rsp + 64 to %rdi
+<+2394>: call gettimeofday(%rsp[64], 0)                                                 # returns seconds and microseconds since the epoch (January 1, 1970, 00:00:00)
+<+2399>
+<+2401>: jump to <+1802> if %eax >= 0                                                   # jump if gettimeofday if successful
+<+2407>: jump to <+1690>                                                                # exit the program
+<+2412>: unallocate space from stack (254168 bytes)
+<+2419>
+<+2420>
+<+2421>
+<+2423>
+<+2425>
+<+2427>: pop from stack (%rbx, %rbp, %r12, %r13, %r14, %r15)
+<+2429>: return                                                                         # decreases rsp by 8

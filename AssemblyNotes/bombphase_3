@@ -1,0 +1,16 @@
+<+0>: allocate 8 bytes on stack
+<+4>
+<+8>: jump to <+24> if %rdi == 4                                                        # jump if successfully scanned items is 4 (explode bomb otherwise)
+<+10>: call trigger_bomb_now()
+<+15>: set return to -605273121
+<+22>: jump to <+59>
+<+24>: %r8 = %r8 xor 438
+<+31>
+<+34>: %rsi = %rsi - %r8 + 301
+<+41>
+<+44>: jump to <+10> if %rsi != %rdx                                                    # jump and explode bomb if value isn't equal to 3rd passed parameter
+<+46>
+<+53>: %al = %rsi == 704                                                                # %rsi is 403,  %rdx is 704, %r8 is 438
+<+56>: set return to %al                                                                # possible string is "403 704 1 438 PaddyOBrien"
+<+59>: unallocate space from stack (8 bytes)
+<+63>: return

@@ -1,0 +1,10 @@
+<+0>
+<+3>: jump to <+24> if *%rdi == 0                                                       # return 0 if string is empty
+<+5>: move 0 to %eax                                                                    # loop count
+<+10>: add 1 to %eax                                                                    # increment loop
+<+13>: move %eax to %rdx
+<+16>
+<+20>: jump to <+10> if %rdi[%rdx] != 0                                                 # repeat until end of string has been reached and return loop count
+<+22>: return
+<+24>: set return to 0
+<+29>: return

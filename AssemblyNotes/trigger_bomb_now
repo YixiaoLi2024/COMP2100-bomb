@@ -1,0 +1,24 @@
+<+0>: allocate 24 bytes on stack
+<+4>: move <unknown text> to %edi                                                       # text is "\nCRACK!"
+<+9>: call puts(%edi)
+<+14>: move <unknown text> to %edi                                                      # text is "The bomb has blown up."
+<+19>: call puts(%edi)
+<+24>
+<+31>
+<+38>: %dl = infile == stdin
+<+41>
+<+44>
+<+49>
+<+54>: call send_msg(0, 0, %dl)                                                         # send string to server as "explosion" bomb status
+<+59>: %rsp[0] = 2
+<+67>: %rps[8] = 0
+<+76>
+<+79>
+<+82>: call nanosleep(%rsp, %rsp)                                                       # sleep for 2 seconds (even if interrupted)
+<+87>
+<+89>: jump to <+101> if %eax == 0                                                      # jump and exit if nanosleep was successful
+<+91>: call __errno_location()                                                          # returns address of errno variable
+<+96>
+<+99>: jump to <+76> if *%rax == 4                                                      # jump if errno is EINTR (interrupted function)
+<+101>
+<+106>: exit(8)

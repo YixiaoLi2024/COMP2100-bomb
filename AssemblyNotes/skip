@@ -1,0 +1,28 @@
+<+0>: push on stack (%rbx)
+<+1>
+<+8>
+<+13>
+<+18>: move <unknown text> to %edi                                                      # text is "Bomb> "
+<+23>: call fwrite(%edi, 1, 6, stdout)
+<+28>
+<+35>
+<+39>: %rdi = num_input_strings * 102 + 0x6061cb                                        # get next input (102 bytes long)
+<+46>
+<+53>
+<+58>: call fgets(%rdi, 82, infile)                                                     # reads and stores a maximum of 82 bytes of input to infile (user inputs a string)
+<+63>: move %rax to %rbx                                                                # stores pointer of input string in %rbx
+<+66>
+<+69>: jump to <+114> if %rax == 0                                                      # jump and return 0 if fgets was unsuccessful
+<+71>
+<+74>: call blank_line(%rax)
+<+79>
+<+81>: jump to <+28> if %eax != 0                                                       # jump if no space was found
+<+83>
+<+90>
+<+97>: jump to <+114> if infile == stdin stream                                         # jump if infile (input string) is stdin stream
+<+99>
+<+106>
+<+109>: call fputs(%rbx, stdout)                                                        # print %rbx (input string) if infile is a passed file
+<+114>: set return to %rbx                                                              # return pointer to input string
+<+117>: pop from stack (%rbx)
+<+118>: return

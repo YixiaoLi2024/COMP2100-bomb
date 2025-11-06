@@ -1,0 +1,38 @@
+
+<+0>
+<+2>
+<+3>: push on stack (%r12, %rbp, %rbx)
+<+4>: move %rdi to %rbx                                                                 # 1st passed parameter
+<+7>: move %rsi to %rbp                                                                 # 2nd passed parameter
+<+10>: call string_length(%rbx)
+<+15>: move %eax to %r12d
+<+18>
+<+21>: call string_length(%rbp)
+<+26>: move 1 to %edx
+<+31>
+<+34>: jump to <+96> if %r12d != %eax                                                   # jump and return 1 if string length aren't equal
+<+36>: %eax = *%rbx
+<+39>
+<+41>: jump to <+77> if %al == 0                                                        # jump and return 0 if 1st passed string is empty
+<+43>
+<+46>: jump to <+55> if %al == %rbp[0]                                                  # jump if first character of both strings are equal
+<+48>: jump to <+84>                                                                    # jump and return 1 if first character of both strings aren't equal
+<+50>
+<+53>: jump to <+91> if %al != %rbp[0]                                                  # jump and return 1 if first character of both strings aren't equal
+<+55>: %rbx = %rbx[1]
+<+59>: %rbp = %rbp[1]                                                                   # get next character of each string
+<+63>: %eax = *%rbx
+<+66>
+<+68>: jump to <+50> if %al != 0                                                        # repeat until end of 1st passed string is reached
+<+70>: set return to 0                                                                  # return 0 if end of 1st passed string is reached
+<+75>: jump to <+96>
+<+77>: set return to 0
+<+82>: jump to <+96>
+<+84>: set return to 1
+<+89>: jump to <+96>
+<+91>: set return to 1
+<+96>: set return to %edx
+<+98>
+<+99>
+<+100>: pop from stack (%rbx, %rbp, %r12)
+<+102>: return

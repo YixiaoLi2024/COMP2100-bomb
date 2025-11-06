@@ -1,0 +1,21 @@
+<+0>
+<+1>: push on stack (%rbp, %rbx)
+<+2>: allocate 8 bytes on stack
+<+6>: move %rdi to %rbp                                                                 # passing 1st parameter (pointer to string)
+<+9>: jump to <+34>
+<+11>: call __ctype_b_loc()                                                             # returns a pointer to a 384 unsigned short int element array of characters to be used for ctype() functions (in <ctype.h>) where each element contains 11 bits that describe the character
+<+16>: add 1 to %rbp
+<+20>: %rbx = %bl
+<+24>: %rax = *%rax                                                                     # store array of characters (array pointer) in %rax
+<+27>
+<+32>: jump to <+49> if %rax[2*%rbx + 1] == 32                                          # jump and return 0 if byte value is " " (space)
+<+34>: %ebx = %rbp[0]                                                                   # get next byte
+<+38>
+<+40>: jump to <+11> if %bl != 0                                                        # repeat and loop through the string
+<+42>: set return to 1
+<+47>: jump to <+54>                                                                    # return 1 if no space was found
+<+49>: set return to 0                                                                  # return 0 if space was found
+<+54>: unallocate space from stack (8 bytes)
+<+58>
+<+59>: pop from stack (%rbx, %rbp)
+<+60>: return

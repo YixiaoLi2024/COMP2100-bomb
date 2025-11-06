@@ -1,0 +1,44 @@
+<+0>
+<+1>: push on stack (%rbp, %rbx)
+<+2>: allocate 8 bytes on stack
+<+6>: move %rdi to %rbp                                                         # 1st passed parameter is <unknown text> (probably a pointer)
+<+9>: move %esi to %ebx                                                         # 2nd passed parameter is 81
+<+11>: call getuid()                                                            # get real user ID of the calling process
+<+16>
+<+18>: call getpwuid(%eax)                                                      # search the user database for an entry with the id from getuid() and returns a pointer to a record (struct)
+<+23>
+<+26>: jump to <+65> if %rax != 0                                               # jump if the pointer to the record isn't null
+<+28>: move stderr stream to %rcx
+<+35>
+<+40>
+<+45>: move <unknown text> to %edi                                              # text is "Initialisation error [a]\n"
+<+50>: fwrite(%edi, 1, 25, stderr)
+<+55>
+<+60>: exit(8)
+<+65>: %rsi = *%rax                                                             # %rsi is value of the first field of the struct from getpwuid
+<+68>: move 0 to %eax
+<+73>: move -1 to %rcx
+<+80>: move %rsi to %rdi
+<+83>: repeatedly scan through the record until a NULL byte is found            # %ecx decreases each loop
+<+85>
+<+88>
+<+91>: move number of scanned bytes into %rax                                   # doesn't include NULL byte
+<+95>: move %ebx to %rbx
+<+98>
+<+101>: jump to <+140> if %rax < %rbx                                           # jump if scanned string is 80 bytes or less
+<+103>: move stderr stream to %rcx
+<+110>
+<+115>
+<+120>: move <unknown text> to %edi                                             # text is "Initialisation error [b]\n"
+<+125>: fwrite(%edi, 1, 25, stderr)
+<+130>
+<+135>: exit(8)
+<+140>
+<+143>
+<+146>: call strncpy(%rbp, %rsi, %rbx)                                          # makes the copied string %rbx bytes long (81 bytes)
+<+151>: move 0 to %rbp + %rbx - 1                                               # make last byte NULL
+<+156>
+<+159>: unallocate space from stack (8 bytes)
+<+163>
+<+164>: pop from stack (%rbx, %rbp)
+<+165>: return %rbp                                                             # return first field of record from user database (username)

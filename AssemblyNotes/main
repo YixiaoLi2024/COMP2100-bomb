@@ -1,0 +1,155 @@
+<+0>: push on stack (%rbx)
+<+1>: allocate 16 bytes on stack
+<+5>
+<+8>: jump to <+26> if %edi != 1                                                        # jump if (arg != 1)
+<+10>
+<+17>: get stdin stream into infile
+<+24>: jump to <+125>
+<+26>: move %rsi to %rbx
+<+29>
+<+32>: jump to <+92> if %edi != 2                                                       # jump if (arg != 2)
+<+34>
+<+38>: move <unknown text> to %esi                                                      # text is "r" for fopen mode
+<+43>: fopen(%rsi[8], "r")
+<+48>: move file pointer into infile                                                    # pointer to file stored at %rsi + 8
+<+55>
+<+58>: jump to <+125> if stdin is not null                                              # jump if infile exists
+<+60>
+<+64>: %rdx = *%rbx
+<+67>: move <unknown text> to %esi                                                      # text is "%s: Error: Couldn't open %s\n"
+<+72>
+<+77>: __printf_chk(%esi, %rdx)
+<+82>
+<+87>: exit(8)
+<+92>: %rdx = *%rsi
+<+95>: move <unknown text> to %esi                                                      # text is "Usage: %s [<input_file>]\n"
+<+100>
+<+105>
+<+110>: __printf_chk(%esi, %rdx)
+<+115>
+<+120>: exit(8)
+<+125>: call initialize_bomb()
+<+130>: move <unknown text> to %edi                                                     # text probably is "Welcome to my fiendish little bomb. You have 6 phases with"
+<+135>: println
+<+140>: move <unknown text> to %edi                                                     # text probably is "which to blow yourself up. Have a nice day!"
+<+145>: println
+<+150>
+<+155>
+<+160>: call read_line(0, 0)                                                            # returns input string
+<+165>
+<+170>
+<+175>
+<+180>
+<+183>: call bombphase_1(%rax, 77, 119, 62)
+<+188>
+<+191>
+<+193>: jump to <+205> if %eax is >= 0
+<+195>
+<+200>: exit(1)
+<+205>
+<+207>: call phase_defused(%eax)
+<+212>
+<+214>: jump to <+226> if %ebx <= 0
+<+216>: move <unknown text> to %edi                                                     # text is "Congratulations, expert!"
+<+221>: println
+<+226>: move <unknown text> to %edi                                                     # text is "Phase 1 defused. How about the next one?"
+<+231>: println
+<+236>
+<+241>
+<+246>: call read_line(0, 0)
+<+251>
+<+254> call bombphase_2(%rax)
+<+259>
+<+262>
+<+264>: jump to <+276> if %eax is >= 0
+<+266>
+<+271>: exit(1)
+<+276>
+<+278>: call phase_defused(%eax)
+<+283>
+<+285>: jump to <+297> if %ebx <= 0
+<+287>: move <unknown text> to %edi                                                     # text is "An excellent solution!"
+<+292>: println
+<+297>: move <unknown text> to %edi                                                     # text is "That's number 2.  Keep going!"
+<+302>: println
+<+307>
+<+312>
+<+317>: call read_line(0, 0)
+<+322>: move %rsp to %r9                                                                # move memory address of %rsp to %r9
+<+325>: move %rsp[4] to %r8                                                             # move memory address of %rsp + 4 to %r8
+<+330>: move %rsp[8] to %rcx                                                            # move memory address of %rsp + 8 to %rcx
+<+335>: move %rsp[12] to %rdx                                                           # move memory address of %rsp + 12 to %rdx
+<+340>: move <unknown text> to %esi                                                     # text is "%d %d %d %d"
+<+345>
+<+348>
+<+353>: call __isoc99_sscanf(%rax, %esi, %rdx, %rcx, %r8, %r9)
+<+358>
+<+363>
+<+368>
+<+373>
+<+376>
+<+380>: call bombphase_3(%eax, %rsp[12], %rsp[8], %rsp[4], %rsp[0])
+<+385>
+<+388>
+<+390>: jump to <+402> if %eax is >= 0
+<+392>
+<+397>: exit(1)
+<+402>
+<+404>: call phase_defused(%eax)
+<+409>
+<+411>: jump to <+423> if %ebx <= 0
+<+413>: move <unknown text> to %edi                                                     # text is "Your bomb defusing skills are great!"
+<+418>: println
+<+423>: move <unknown text> to %edi                                                     # text is "Halfway there!"
+<+428>: println
+<+433>
+<+438>
+<+443>: call read_line(0, 0)
+<+448>
+<+451>: call bombphase_4(%rax)                                                          # bombphase_4(input)
+<+456>
+<+459>
+<+461>: jump to <+402> if %eax is >= 0
+<+463>
+<+468>: exit(1)
+<+473>
+<+475>: call phase_defused(%eax)
+<+480>
+<+482>: jump to <+494> if %ebx <= 0
+<+484>: move <unknown text> to %edi                                                     # text is "Congratulations! You certainly know how to flow!"
+<+489>: println
+<+494>: move <unknown text> to %edi                                                     # text is "So you got that one.  Try this one."
+<+499>: println
+<+504>
+<+509>
+<+514>: call read_line(0, 0)
+<+519>
+<+522>: call bombphase_5(%rax)                                                          # bombphase_5(input)
+<+527>
+<+530>
+<+532>: jump to <+544> if %eax is >= 0
+<+534>
+<+539>: exit(1)
+<+544>
+<+546>: call phase_defused(%eax)
+<+551>
+<+553>: jump to <+565> if %ebx <= 0
+<+555>: move <unknown text> to %edi                                                     # text is "Perfect bomb defusing skill!"
+<+560>: println
+<+565>: move <unknown text> to %edi                                                     # text is "Good work!  On to the next..."
+<+570>: println
+<+575>
+<+580>
+<+585>: call read_line(0, 0)
+<+590>
+<+593>: call bombphase_6(%rax)                                                          # bombphase_6(input)
+<+598>
+<+600>: jump to <+612> if %eax is >= 0
+<+602>
+<+607>: exit(1)
+<+612>
+<+614>: call phase_defused(%eax)
+<+619>
+<+624>: unallocate space from stack (16 bytes)
+<+628>: pop from stack (%rbx)
+<+629>: return 0

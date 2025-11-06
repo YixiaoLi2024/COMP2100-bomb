@@ -1,0 +1,73 @@
+<+0>
+<+2>
+<+4>
+<+6>
+<+8>
+<+9>: push on stack (%r15, %r14, %r13, %r12, %rbp, %rbx)
+<+10>: allocate 8216 bytes on stack
+<+17>: move %edx to %ebp                                                                # 3rd parameter passed
+<+19>: move %rcx to %r12                                                                # 4th parameter passed
+<+22>: move %r8d to %r13d                                                               # 5th parameter passed
+<+25>: move %r9 to %r14                                                                 # 6th parameter passed
+<+28>: move %rsp[8296] to %rbx                                                          # 10th parameter passed (memory address of %rsp + 24 after exiting function)
+<+36>: move %esi to %r8d                                                                # 2nd parameter passed (string number)
+<+39>: move <unknown text> to %ecx                                                      # text is "%d"
+<+44>
+<+49>
+<+54>
+<+57>: move 0 to %eax
+<+62>: call __sprintf_chk(%rsp, 1, 8192, %ecx, %r8d)                                    # writes %r8d to memory address %rsp
+<+67>: *%rbx = 0
+<+70>
+<+78>: jump to <+124> if %rsp[8280] == 0                                                # if value at memory address of %rsp + 8280 (%rsp + 8 or 8th parameter passed) is NULL
+<+80>: move %rsp[8272] to %rdx                                                          # move 7th parameter to %rdx (value of %rsp[0] after exiting function)
+<+88>: move <unknown text> to %esi                                                      # text is "\nAUTORESULT_STRING=%s\n"
+<+93>
+<+98>: move 0 to %eax
+<+103>: call __printf_chk(1, %esi, %rdx)
+<+108>: *%rbx = 0x4b4f
+<+113>: *%rbx[2] = 0                                                                    # set %rbx to "KO"
+<+117>: move 0 to %edx
+<+122>: jump to <+251>                                                                  # return 0
+<+124>
+<+127>: call notifier_603(%rbx)                                                         # %eax is 0 if init_done isn't NULL or init_done is NULL, the user record isn't NULL, and the record length is less than 8192 bytes
+<+132>: move %eax to %edx
+<+134>
+<+136>: jump to <+251> if %eax != 0                                                     # jump and return -1 if notifier_603() failed
+<+138>
+<+141>: move %rsp[8192] to %rsi                                                         # move memory address of %rsp + 8192 to %rsi
+<+149>: move %rsp[8200] to %rdi                                                         # move memory address of %rsp + 8200 to %rdi
+<+157>: call notifier_936(%rdi, %rsi, %rbx)                                             # %eax is >=0 (file descriptor for socket endpoint) if there is a record that established a socket connection and %rsp[8200] stores socket connection file pointer for reading and %rsp[8192] stores socket connection file pointer for writing
+<+162>: move %eax to %r15d
+<+165>: move %eax to %edx
+<+167>
+<+169>: jump to <+251> if %eax < 0                                                      # jump and return -1 if every record failed to create a socket connection
+<+171>: push on stack (%rbx)
+<+172>: move %rsp[8296] to %eax                                                         # move 9th parameter to %eax (value at memory address of %rsp + 16 after exiting function)
+<+179>
+<+180>
+<+187>: push on stack (%rax, %rsp[8288], %r14)                                          # %rsp[8288] is 7th passed parameter (value at memory address of %rsp after exiting function)
+<+189>
+<+192>
+<+195>
+<+197>: move %rsp[32] to %rdx                                                           # move memory address of %rsp + 32 to %rdx
+<+202>: move %rsp[8224] to %rsi                                                         # socket connection pointer for writing
+<+210>: move %rsp[8232] to %rdi                                                         # socket connection pointer for reading
+<+218>: call notifier_871(%rsp[8232], %rsp[8224], %rdx, %ebp, %r12, %r13d, %r14, %rsp[8304], %rsp[8320], %rbx)                          # return 0 if the processing time is longer than 0.35 seconds and first byte of rsp[8232] is "+" and sends updated server information (%rsp + 8232) in an encrypted format to the socket connection pointer for writing (memory address %rsi + 8224) and calls notifier_60 with the server information in an unencrypted format (%rsp + 8232) and makes %rbx an empty string
+<+223>: unallocate space from stack (32 bytes)
+<+227>
+<+229>: jump to <+246> if %eax < 0                                                      # jump and return -1 if first byte of rsp[40] isn't "+"
+<+231>
+<+234>: call close(%r15d)                                                               # closes socket connection
+<+239>: set return to 0
+<+244>: jump to <+251>
+<+246>: move -1 to %edx
+<+251>: set return to %edx
+<+253>: unallocate space from stack (8216 bytes)
+<+260>
+<+261>
+<+262>
+<+264>
+<+266>
+<+268>: pop from stack (%rbx, %rbp, %r12, %r13, %r14, %r15)
+<+270>: return

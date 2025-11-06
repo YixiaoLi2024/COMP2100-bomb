@@ -1,0 +1,11 @@
+<+0>: add 1 to call_count                                                               # call_count is 0 initially
+<+7>: move 0 to %eax
+<+12>
+<+14>: jump to <+30> if %edi <= 0
+<+16>: push on stack (%rbx)
+<+17>: move %edi to %ebx
+<+19>: signed shift %edi right by 4
+<+22>: call func_6(%rdi)
+<+27>: %eax = %ebx xor %eax
+<+29>: pop from stack (%rbx)
+<+30>: return

@@ -1,0 +1,45 @@
+<+0>: allocate 8 bytes on stack
+<+4>: %eax = %rdi[9]
+<+8>
+<+10>: jump to <+104> if %al == 0                                                       # jump if input string is 9 characters long
+<+12>: move %rdi[9] to %r9                                                              # move memory address of %rdi + 9 to %r9 (10th character in input string)
+<+16>: %rdx = %r9                                                                       # rdx is memory address %rdi + 9
+<+19>: %esi = 487
+<+24>: move <unknown text> to %edi                                                      # text is "plazas"
+<+29>
+<+35>: %ecx = %al                                                                       # %ecx is value of current character in the input string
+<+38>: %esi = %esi + %ecx                                                               # %esi is 487 added to the character in the input string
+<+40>: %eax = %eax - 94                                                                 # get the ASCII value of the character in the input string subtracted by 94
+<+43>
+<+45>: %ecx = %eax and 31                                                               # get first 5 bit of %eax
+<+48>
+<+50>: jump to <+88> if %cl != %al                                                      # jump and don't advance "plazas" string if %al <= 93 and %al > 127 (only the first 5 bits)
+<+52>
+<+55>
+<+57>: %eax = (1 - %ecx) and 31                                                         # get first 5 bit of %r8d - %ecx
+<+60>: move %rdi[1] to %rcx                                                             # move memory address of %rdi + 1 to %rcx
+<+64>: %eax = %eax + 94                                                                 # get original ASCII value of the character in the input string
+<+67>
+<+69>: jump to <+85> if %al == %rdi[0]                                                  # jump if 9th + nth character in the input string is equal to the nth character in "plazas" string (otherwise explode bomb)
+<+71>: call trigger_bomb_now()
+<+76>: set return to -605273121
+<+83>: jump to <+144>
+<+85>: %rdi = %rdi[1]
+<+88>: %rdx = %rdx[1]
+<+92>: %eax = %rdx[0]
+<+95>
+<+97>: jump to <+35> if %al != 0                                                        # repeat until end of input string is reached
+<+99>
+<+102>: jump to <+118> if %rdi[0] == 0                                                  # jump if end of "plazas" string is reached
+<+104>: call trigger_bomb_now()
+<+109>: set return to -605273121
+<+116>; jump to <+144>
+<+118>: set return to 0
+<+123>
+<+129>: jump to <+144> if %esi != 1963                                                  # jump if the ASCII value of all the characters after (and including) the 10th character in the input string added to 487 isn't 1963
+<+131>: %rdx = %rdx[-%r9]                                                               # move input string pointer back n positions where n is the ASCII value of the 10th character
+<+134>
+<+138>: %al = %rdx == 15                                                                # there must be 15 characters starting from 10th character (24 characters in total)
+<+141>: set return to %al                                                               # possible string is "0123456789]]]]]]]]mq|c|j"
+<+144>: unallocate space from stack (8 bytes)
+<+148>: return

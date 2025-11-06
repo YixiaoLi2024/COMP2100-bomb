@@ -1,0 +1,26 @@
+<+0>: push on stack (%rbx)
+<+1>: allocate 16 bytes on stack
+<+5>: move %rdi to %rbx                                                                 # 1st parameter passed (input string)
+<+8>
+<+18>: %rsp[0] = 0x69636e756e6f7270
+<+22>: %rsp[8] = 0x6f697461
+<+30>: %rsp[12] = 0x6e                                                                  # "pronunciation"
+<+37>
+<+42>
+<+45>: my_strncmp(%rdi, %rsp, 13)                                                       # compare first 13 characters of both strings
+<+50>
+<+52>: jump to <+84> if %eax != 0                                                       # jump if first 13 characters of both strings aren't equal
+<+54>: set return to 0
+<+59>
+<+63>: jump to <+96> if %rbx[13] == 0                                                   # jump and return if 14th character of input string is NULL
+<+65>
+<+68>: call my_strlen(%rbx)
+<+73>
+<+76>: %al == %eax == 22
+<+79>: set return to %al                                                                # possible string is "pronunciationaaaaaaaaa"
+<+82>: jump to <+96>                                                                    # jump and return 1 if the length of the input string is 22 characters (otherwise return 0)
+<+84>: call trigger_bomb_now()
+<+89>: set return to -605273121
+<+96>: unallocate space from stack (16 bytes)
+<+100>: pop from stack (%rbx)
+<+101>: return

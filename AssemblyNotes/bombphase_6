@@ -1,0 +1,28 @@
+<+0>: push on stack (%rbx)
+<+1>: allocate 16 bytes on stack
+<+5>: move %rsp[12] to %rcx                                                             # move memory address of %rsp + 12 to %rcx
+<+10>: move %rsp[8] to %rdx                                                             # move memory address of %rsp + 8 to %rdx
+<+15>: move <unknown text> to %esi                                                      # text is "%d,%d"
+<+20>: move 0 to %eax
+<+25>: call __isoc99_sscanf(%rdi, %esi, %rdx, %rcx)
+<+30>: move 1 to %ebx
+<+35>
+<+38>: jump to <+52> if %eax == 2                                                       # jump if successfully scanned items is 2 (explode bomb otherwise)
+<+40>: call trigger_bomb_now()
+<+45>: set return to -605273121
+<+52>
+<+57>: jump to <+71> if %rsp[12] != 0
+<+59>: call trigger_bomb_now()
+<+64>: set return to -605273121
+<+71>
+<+75>: call func_6(%rsp[12])                                                            # %rsp[8] is 16 and %rsp[12] is 17
+<+80>
+<+87>: jump to <+95> if call_count != 3                                                 # jump if call_count isn't 3
+<+89>
+<+93>: jump to <+107> if %eax == %rsp[8]
+<+95>: call trigger_bomb_now()
+<+100>: set return to -605273121
+<+107>: set return to %rbx                                                              # possible string is "16,17"
+<+110>: unallocate space from stack (16 bytes)
+<+114>: pop from stack (%rbx)
+<+115>: return

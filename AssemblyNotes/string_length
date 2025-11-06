@@ -1,0 +1,10 @@
+<+0>
+<+3>: jump to <+24> if *%rdi == 0                                                       # return 0 if string is empty
+<+5>: move 0 to %eax                                                                    # loop count
+<+10>: %rdi = %rdi[1]                                                                   # get next byte
+<+14>: add 1 to %eax                                                                    # increment loop
+<+17>
+<+20>: jump to <+10> if *%rdi != 0                                                      # repeat until end of string is reached and return string length
+<+22>: return
+<+24>: set return to 0
+<+29>: return

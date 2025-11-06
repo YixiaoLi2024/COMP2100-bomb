@@ -1,0 +1,41 @@
+<+0>
+<+2>
+<+3>: push on stack (%r12, %rbp, %rbx)
+<+4>: allocate 16 bytes on stack
+<+8>: move %rdi to %rbx                                                                 # 1st parameter passed (%rsp pointer after exiting function)
+<+11>: move %esi to %r12d                                                               # 2nd parameter passed
+<+14>: *%rdi = 0
+<+17>: call notifier_603(%rdi)                                                          # %eax is 0 if init_done isn't NULL or init_done is NULL, the user record isn't NULL, and the record length is less than 8192 bytes
+<+22>
+<+24>: jump to <+123> if %eax != 0                                                      # jump and return -1 if notifier_603() failed
+<+26>
+<+29>
+<+32>: move %rsp[8] to %rdi                                                             # move memory address of %rsp + 8 to %rdi
+<+37>: call notifier_936(%rdi, %rsp, %rbx)                                              # %eax is >=0 (file descriptor for socket endpoint) if there is a record that established a socket connection and %rsp[8] stores socket connection file pointer for reading and %rsp[0] stores socket connection file pointer for writing
+<+42>: move %eax to %ebp
+<+44>
+<+46>: jump to <+123> if %eax < 0                                                       # jump and return -1 if every record failed to create a socket connection
+<+48>
+<+49>
+<+51>
+<+56>: push on stack (%rbx, 0, 0x40371c, 0x40371c)
+<+61>
+<+67>
+<+73>: move %r12d to %ecx
+<+76>
+<+81>: move %rsp[32] to %rsi                                                            # socket connection pointer for writing
+<+86>: move %rsp[40] to %rdi                                                            # socket connection pointer for reading
+<+91>: call notifier_871(%rsp[40], %rsp[32], "close", "3992", "open", 0, 0x40371c, 0x40371c, 0, %rbx)                           # return 0 if the processing time is longer than 0.35 seconds and first byte of rsp[40] is "+" and sends updated server information (%rsp + 40) in an encrypted format to the socket connection pointer for writing (%rsp + 32) and calls notifier_60 with the server information in an unencrypted format (%rsp + 40) and makes %rbx an empty string
+<+96>: unallocate space from stack (32 bytes)
+<+100>
+<+102>: jump to <+118> if %eax < 0                                                      # jump and return -1 if first byte of rsp[40] isn't "+"
+<+104>
+<+106>: call close(%ebp)                                                                # closes socket connection
+<+111>: set return to 0
+<+116>: jump to <+123>
+<+118>: set return to -1
+<+123>: unallocate space from stack (16 bytes)
+<+127>
+<+128>
+<+129>: pop from stack (%rbx, %rbp, %r12)
+<+131>: return

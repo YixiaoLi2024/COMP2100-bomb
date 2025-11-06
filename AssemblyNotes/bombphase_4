@@ -1,0 +1,46 @@
+<+0>: allocate 472 bytes on stack
+<+7>: move %rdi to %rsi                                                                 # 1st parameter passed (input string)
+<+10>: %rsp[96] = 6127                                                                  # 2 bytes
+<+17>: %rsp[86] = 7700                                                                  # 2 bytes
+<+24>: %rsp[88] = 18                                                                    # 1 byte
+<+29>: %rsp[100] = 0                                                                    # 4 bytes
+<+37>: %rsp[104] = 1774644447                                                           # 8 bytes
+<+46>: %rsp[92] = 275238939                                                             # 4 bytes
+<+54>
+<+59>: %ax = %rsp[96] + 268
+<+63>: %rsp[96] = %ax
+<+68>: move %rsp[64] to %rdi                                                            # move memory address of %rsp + 64 to %rdi
+<+73>: call strcpy(%rdi, %rsi)                                                          # moves input string to memory address %rsp + 64
+<+78>: %edx = %rsp[88]
+<+83>: set return to 0
+<+88>
+<+91>: jump to <+105> if %dl == 121                                                     # jump if %rsp[88] is 121
+<+93>: call trigger_bomb_now()
+<+98>: set return to -605273121
+<+105>: %edx = %rsp[100]
+<+109>
+<+111>: jump to <+125> if %edx == 0                                                     # jump if %rsp[100] is 0
+<+113>: call trigger_bomb_now()
+<+118>: set return to -605273121
+<+125>: %edx = %rsp[86]
+<+130>
+<+135>: jump to <+149> if %dx == 31811                                                  # jump if %rsp[86] is 31811
+<+137>: call trigger_bomb_now()
+<+142>: set return to -605273121
+<+149>: %rdx = %rsp[104]
+<+154>
+<+161>: jump to <+175> if %rdx == 1774644447                                            # jump if %rsp[104] is 1774644447
+<+163>: call trigger_bomb_now()
+<+168>: set return to -605273121
+<+175>: %ecx = %rsp[96]
+<+180>: %edx = %rsp[92]
+<+184>: move %cx to %ecx                                                                # sign extends
+<+187>: %ecx = 64*%ecx
+<+190>: %edx = -%edx - 1
+<+192>: %edx = %edx and %ecx
+<+194>
+<+200>: %dl = %edx == 692608                                                            # %rsp[96] is 10822 and %rsp[92] ends in 0x56E7E (355966)
+<+203>: %edx = %dl                                                                      # possible string is "aaaaaaaaaaaaaaaaaaaaaaC|yaaa~nUaF*aa"
+<+206>: %rax = %rax or %rdx                                                             # get return value
+<+209>: unallocate space from stack (472 bytes)
+<+216>: return

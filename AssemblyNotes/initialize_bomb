@@ -1,0 +1,70 @@
+<+0>: push on stack (%rbx)
+<+1>: allocate 8256 bytes on stack
+<+8>: move <unknown text> to %esi                                                   # sig_handler function
+<+13> 
+<+18>: call signal(2, 0x40191a)                                                     # runs sig_handler when ctrl + C is pressed
+<+23>: move <unknown text> to %edi                                                  # text is "Copyright (c) 2020 Macquarie University.  For use by student 48404381 only."
+<+28>: println
+<+33>
+<+38>: move %rsp[8192] to %rdi                                                      # move memory address of %rsp + 8192 to %rdi
+<+46>: call gethostname(%rdi, 64)                                                   # get standard host name for the current machine
+<+51>
+<+53>: jump to <+77> if %eax != 0                                                   # jump to exit the code if gethostname wasn't successful
+<+55>: move host_table into %rdi                                                    # host_table is "ash.science.mq.edu.au"
+<+62>: move 0x605808 into %ebx                                                      # 0x605808 is host_table which is a pointer to a string
+<+67>
+<+70>: jump to <+97> if host_table is not null                                      # jump if host_table exists
+<+72>: jump to <+255>                                                               # jump if host_table doesn't exist
+<+77>: move <unknown text> to %edi                                                  # "Initialization error [c]"
+<+82>: println
+<+87>
+<+92>: exit(8)
+<+97>: move %rsp[8192] to %rsi                                                      # move memory address of %rsp + 8192 to %rsi
+<+105>: call strcasecmp(0x203d02(%rip), %rsi)                                       # 1st parameter is host_table from <+55>
+<+110>
+<+112>: jump to <+275> if %eax == 0                                                 # jump if hostname matches the host_table record
+<+118>: add 8 to %rbx                                                               # get next record in host_table
+<+122>
+<+126>
+<+129>: jump <+97> if rbx[-8] != 0                                                  # repeat and loop through all the records in host_table
+<+131>: jump to <+255>                                                              # jump and exit if no more records to loop through
+<+133>: move %rsp to %rdx
+<+136>: move <unknown text> to %esi                                                 # text is "Initialization error:\n%s\n"
+<+141>
+<+146>
+<+151>: __printf_chk(%esi, %rdx)
+<+156>
+<+161>: exit(8)
+<+166>: move %rsp to %rdx
+<+169>: move <unknown text> to %esi                                                 # text is "%s"
+<+174>
+<+179>
+<+184>: __printf_chk("%s", %rdx)
+<+189>
+<+194>: move <unknown text> to %edi                                                 # text is ""
+<+199>: call spider(%edi, 0x51)                                                     # return pointer to user record
+<+204>: move <unknown text> to %esi                                                 # text is "48404381"
+<+209>: move <unknown text> to %edi                                                 # text is the value returned from spider
+<+214>: call strcmp(%edi, %esi)
+<+219>
+<+221>: jump to <+243> if %eax == 0                                                 # jump if two strings match each other
+<+223>: move <unknown text> to %edi                                                 # text is "Initialization error [e]"
+<+228>: println
+<+233> 
+<+238>: exit(8)
+<+243> 
+<+248>: call bird()                                                                 # empty function
+<+253>: jump to <+297>                                                              # return and finish initializing the bomb
+<+255>: move <unknown text> to %edi                                                 # text is "Initialization error [d]"
+<+260>: println
+<+265>
+<+270>: exit(8)
+<+275> 
+<+280>
+<+283>: call eagle(%rsp, 3992)                                                      # return 0 if notifier_603 == 0, notifier_936 >= 0, and notifier_871 == 0, otherwise return -1 and %rsp[0] stores socket endpoint + server information + environ
+<+288>
+<+290>: jump to <+166> if %eax >= 0                                                 # jump if eagle returned 0
+<+292>: jump to <+133>
+<+297>: unallocate space from stack (8256 bytes)
+<+304>: pop from stack (%rbx)
+<+305>: return

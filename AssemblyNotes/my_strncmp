@@ -1,0 +1,33 @@
+<+0>
+<+3>: jump to <+74> if %rdx == 0                                                        # jump and return 0 if comparing 0 characters
+<+5>: %ecx = %rdi[0]
+<+8>: %eax = %rsi[0]
+<+11>
+<+13>: jump to <+39> if %cl != %al                                                      # jump and return 1 or -1 if first characters of both strings aren't equal
+<+15>
+<+17>: jump to <+80> if %cl == 0                                                        # jump and return 0 if both strings are empty
+<+19>: move 0 to %r8d                                                                   # loop count
+<+25>: jump to <+56>
+<+27>: %ecx = %rdi[%rax]
+<+31>: %eax = %rsi[%rax]
+<+35>
+<+37>: jump to <+52> if %cl == %al                                                      # jump if characters of both strings are equal
+<+39>
+<+41>: %al = %cl >= %al
+<+44>: %eax = %al
+<+47>: %eax = 2*%rax - 1
+<+51>: return                                                                           # return 1 if first string is lexicographically larger than the second string, otherwise return -1 (second string is lexicographically larger than the first string)
+<+52>
+<+54>: jump to <+86> if %cl == 0                                                        # jump and return 0 if the end of both strings have been reached
+<+56>: add 1 to %r8d                                                                    # increment loop
+<+60>: move %r8d to %rax
+<+63>
+<+66>: jump to <+27> if %rax < %rdx                                                     # repeat until the required number of characters has been compared and return 0
+<+68>: set return to 0
+<+73>: return
+<+74>: set return to 0
+<+79>: return
+<+80>: set return to 0
+<+85>: return
+<+86>: set return to 0
+<+91>: return
